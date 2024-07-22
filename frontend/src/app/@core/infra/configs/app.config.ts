@@ -9,24 +9,26 @@ import { MatPaginatorIntl } from "@angular/material/paginator";
 import { provideEffects } from "@ngrx/effects";
 import { provideStore } from "@ngrx/store";
 
-import routeConfig from '../../../app.routes';
 import { MAT_RADIO_CONFIG } from "./mat-radio.config";
 import { MAT_FORM_FIELD_CONFIG } from "./mat-form-field.config";
 import { reducers } from "../store/ngrx/reducer";
 import { BR_PAGINATOR } from "./br-paginator.congif";
-import { MAT_SNACKBAR_CONFIG } from "./mat-snackbar.config";
+import { SNACKBAR } from "./mat-snackbar.config";
+import { ROUTES } from "../../../app.routes";
+import { provideHttpClient } from "@angular/common/http";
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
-        provideRouter(routeConfig),
+        provideRouter(ROUTES),
         provideAnimationsAsync(),
         provideStore(reducers),
         provideEffects(),
+        provideHttpClient(),
         { provide: LOCALE_ID, useValue: 'pt-BR' },
         { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: MAT_FORM_FIELD_CONFIG },
-        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: MAT_SNACKBAR_CONFIG },
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: SNACKBAR.success },
         { provide: MAT_RADIO_DEFAULT_OPTIONS, useValue: MAT_RADIO_CONFIG, },
         { provide: MatPaginatorIntl, useValue: BR_PAGINATOR },
     ]

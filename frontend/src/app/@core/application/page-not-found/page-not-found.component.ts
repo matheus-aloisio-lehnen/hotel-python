@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from "@ngrx/component";
-import { NgOptimizedImage } from "@angular/common";
 import { BaseComponent } from "../shared/base/base.component";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
@@ -23,7 +22,6 @@ import { MatIconModule } from "@angular/material/icon";
         RouterModule,
         MatIconModule,
         LetDirective,
-        NgOptimizedImage
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IonicModule } from "@ionic/angular";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
+import { MatInput, MatInputModule } from "@angular/material/input";
 import { Router, RouterLink } from "@angular/router";
 
 import { AuthService } from "../service/auth.service";
@@ -21,13 +20,12 @@ import { ForgotPasswordDto, forgotPasswordFactory } from "../../../domain/dto/au
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ AuthService ],
     imports: [
-        IonicModule,
         MatCardModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatIconModule,
         MatButtonModule,
-        MatInput,
+        MatInputModule,
         RouterLink
     ]
 })

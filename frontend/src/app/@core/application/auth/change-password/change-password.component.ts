@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component} from '@angular/core';
 import { AuthService } from "../service/auth.service";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { IonicModule } from "@ionic/angular";
-import { MatAnchor, MatButton, MatIconButton } from "@angular/material/button";
-import { MatCardActions, MatCardContent } from "@angular/material/card";
-import { MatError, MatFormField, MatLabel, MatPrefix, MatSuffix } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { Observable } from "rxjs";
 import { AsyncPipe } from "@angular/common";
@@ -22,6 +16,11 @@ import { AppState } from "../../../infra/store/ngrx/state/app.state";
 import { User } from "../../../domain/model/user";
 import { selectUser } from "../../../infra/store/ngrx/selectors/user.selector";
 import { Loading } from "../../../domain/enum/loading.enum";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
 
 @Component({
     selector: 'app-change-password',
@@ -32,21 +31,13 @@ import { Loading } from "../../../domain/enum/loading.enum";
     providers: [ AuthService ],
     imports: [
         FormsModule,
-        IonicModule,
-        MatAnchor,
-        MatButton,
-        MatCardActions,
-        MatCardContent,
-        MatError,
-        MatFormField,
-        MatIcon,
-        MatInput,
-        MatLabel,
-        MatPrefix,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
         ReactiveFormsModule,
         RouterLink,
-        MatIconButton,
-        MatSuffix,
         AsyncPipe,
         MatProgressSpinner,
         LetDirective

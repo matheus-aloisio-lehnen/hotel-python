@@ -20,7 +20,4 @@ export class MessengerService {
         this.snackbar.open(message, action, config)
     }
 
-
-
-
 }

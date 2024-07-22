@@ -4,7 +4,6 @@ import { Observable, Subscription, tap } from "rxjs";
 import { Store } from "@ngrx/store";
 import { AsyncPipe } from "@angular/common";
 
-import { AppState } from "./@core/infra/store/ngrx/interface/app.interface";
 import {
     MatCard,
     MatCardActions,
@@ -15,6 +14,7 @@ import {
 } from "@angular/material/card";
 import { MatButton } from "@angular/material/button";
 import { registerAllIcons } from "./@core/infra/utils/icon/icon.utils";
+import { AppState } from "./@core/infra/store/ngrx/state/app.state";
 
 @Component({
     selector: 'app-root',

@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
-import { Router, RouterLink, RouterOutlet } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { NgOptimizedImage } from "@angular/common";
 import { LetDirective } from "@ngrx/component";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
@@ -26,14 +25,12 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
         MatCardModule,
         MatButtonModule,
         MatIconModule,
-        NgOptimizedImage,
         LetDirective,
         SignInComponent,
         ForgotPasswordComponent,
         SignUpComponent,
         MatProgressSpinner,
-        RouterOutlet,
-        RouterLink,
+        RouterModule,
     ]
 })
 export class AuthComponent extends BaseComponent {

@@ -8,9 +8,9 @@ import { MatDividerModule } from "@angular/material/divider";
 import { DialogBase } from "../../../../domain/type/dialog-base.type";
 
 @Component({
-  selector: 'app-dialog-base',
-  templateUrl: './dialog-base.component.html',
-  styleUrls: ['./dialog-base.component.scss'],
+    selector: 'app-dialog-base',
+    templateUrl: './dialog-base.component.html',
+    styleUrls: [ './dialog-base.component.scss' ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
