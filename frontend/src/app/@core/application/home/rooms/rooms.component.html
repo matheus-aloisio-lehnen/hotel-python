@@ -1,1 +1,45 @@
-<p>rooms works!</p>
+<mat-card class="container">
+    <mat-card-header class="box-1">
+        <mat-card-title-group>
+            <mat-card-title>Quartos</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content class="box-2">
+        @for (room of ROOMS; track room) {
+            <mat-card appearance="outlined"
+                      (click)="selectRoom(room)"
+                      [class.selected]="selectedRoom?.name === room.name"
+                      [class.not-selected]="selectedRoom?.name !== room.name"
+                      [class.bg-light-success]="room.status === RoomStatusEnum.free"
+                      [class.bg-light-warning]="room.status === RoomStatusEnum.reserved"
+                      [class.bg-light-danger]="room.status === RoomStatusEnum.busy" matRipple>
+                <mat-card-title>Quarto {{ room.name }}</mat-card-title>
+            </mat-card>
+        }
+    </mat-card-content>
+    @if (selectedRoom) {
+        <mat-card-footer class="box-3">
+            <mat-card class="card" appearance="outlined">
+                <mat-card-title>Quarto {{ selectedRoom?.name }} - Resumo</mat-card-title>
+                <mat-card-content>
+                    <span> Status: {{ selectedRoom.status | titlecase }}</span>
+<!--                    <span> Hóspede:</span>-->
+                </mat-card-content>
+                <mat-card-actions>
+                    @switch (true) {
+                        @case (selectedRoom?.status === RoomStatusEnum.free) {
+                            <button mat-stroked-button>Fazer check-in sem reserva</button>
+                        }
+                        @case (selectedRoom?.status === RoomStatusEnum.busy) {
+                            <button mat-stroked-button>Fazer checkout</button>
+                        }
+                        @case (selectedRoom?.status === RoomStatusEnum.reserved) {
+                            <button mat-stroked-button>Consultar informações de reserva</button>
+                        }
+                    }
+                </mat-card-actions>
+            </mat-card>
+        </mat-card-footer>
+    }
+</mat-card>
+

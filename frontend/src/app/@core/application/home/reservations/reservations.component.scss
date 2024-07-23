@@ -1,0 +1,19 @@
+.container-reception {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    box-shadow: unset;
+}
+
+
+@media (min-width: 600px) {
+    .container-reception {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        .box:nth-child(1),
+        .box:nth-child(2) {
+            grid-column: span 2;
+        }
+
+    }
+}

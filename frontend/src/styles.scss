@@ -11,6 +11,7 @@ body {
 
 body {
     margin: 0;
+    font-family: 'Varela Round', sans-serif;
 }
 
 html {
@@ -39,8 +40,8 @@ html {
     @include mat.toolbar-theme(light.$theme);
     @include mat.list-theme(light.$theme);
     @include mat.icon-theme(light.$theme);
+    @include mat.chips-theme(light.$theme);
     @include utils.mixins(light.$theme);
-
 
 }
 
@@ -60,5 +61,6 @@ html {
     @include mat.list-color(dark.$theme);
     @include mat.toolbar-color(dark.$theme);
     @include mat.icon-color(dark.$theme);
+    @include mat.chips-color(dark.$theme);
     @include utils.mixins(dark.$theme);
 }

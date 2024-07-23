@@ -8,7 +8,7 @@ export enum Icon {
     csv = 'csv',
     edit = 'edit',
     trash = 'trash',
-    home = 'home',
-    rooms = 'room_service',
-    reservation = 'event'
+    dashboard = 'dashboard',
+    rooms = 'meeting_room',
+    reservation = 'event',
 }

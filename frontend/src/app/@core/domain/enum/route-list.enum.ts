@@ -6,6 +6,7 @@ export enum RouteList {
     forgotPassword = 'forgot-password',
     changePassword = 'change-password',
     home = 'home',
+    dashboard = 'dashboard',
     rooms = 'rooms',
-    reservations = 'reservations'
+    reservations = 'reservations',
 }

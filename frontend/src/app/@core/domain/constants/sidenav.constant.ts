@@ -1,8 +1,13 @@
 import { Icon } from "../enum/icon.enum";
-import { Sidenav } from "../type/links.type";
+import { Sidenav } from "../type/sidenav.type";
 import { RouteList } from "../enum/route-list.enum";
 
 export const SIDENAV: Sidenav[] = [
+    {
+        title: 'Dashboard',
+        icon: Icon.dashboard,
+        link: RouteList.dashboard
+    },
     {
         title: 'Quartos',
         icon: Icon.rooms,
@@ -13,12 +18,4 @@ export const SIDENAV: Sidenav[] = [
         icon: Icon.reservation,
         link: RouteList.reservations
     },
-    // {
-    //     title: 'Coletor',
-    //     icon: Icon.collector,
-    // },
-    // {
-    //     title: 'Indústria',
-    //     icon: Icon.industry,
-    // }
 ]

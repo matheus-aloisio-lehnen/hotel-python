@@ -1,8 +1,8 @@
-import { LegalStatus } from "../../../enum/legal.status";
+import { RoomStatusEnum } from "../../../enum/room-status.enum";
 
 export interface CreatePersonalDataDto {
     name: string;
     documentNumber: string;
     mobile: string;
-    legalStatus: LegalStatus;
+    legalStatus: RoomStatusEnum;
 }

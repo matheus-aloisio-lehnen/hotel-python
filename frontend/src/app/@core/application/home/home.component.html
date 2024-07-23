@@ -14,7 +14,10 @@
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav mode="side" opened class="sidenav" [fixedInViewport]="true">
+        <mat-sidenav mode="side" opened class="sidenav"
+                     [fixedInViewport]="true"
+                     (mouseenter)="navHovered = true"
+                     (mouseleave)="navHovered = false">
             <div class="sidenav-header">
                 <h4 class="brand">The Gallery</h4>
             </div>
@@ -23,13 +26,15 @@
                 @for (nav of SIDENAV; track nav.title) {
                     <a mat-list-item [routerLink]="nav.link">
                         <mat-icon>{{ nav.icon }}</mat-icon>
-                        {{ nav.title }}
+                        <span class="text"> {{ nav.title }} </span>
                     </a>
                 }
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-            <router-outlet></router-outlet>
+            <main [class.ml-adjusted]="navHovered">
+                <router-outlet></router-outlet>
+            </main>
         </mat-sidenav-content>
     </mat-sidenav-container>
     <mat-toolbar class="footer"></mat-toolbar>

@@ -33,6 +33,13 @@
     $gray: mat.get-theme-color($theme, outline);
     $empty: mat.get-theme-color($theme, outline-variant);
 
+    $pastel-primary: #B3C6FF;
+    $pastel-secondary: #F6C6C6;
+    $pastel-success: #C6F6C6;
+    $pastel-info: #D1E7F5;
+    $pastel-warning: #F8D7A4;
+    $pastel-danger: #F5C6C6;
+
     @if($type == 'dark') {
         $info: map-get(mat.$azure-palette, 70);
         $warning: mat.get-theme-color($theme, primary-fixed-dim);
@@ -71,6 +78,30 @@
         color: $gray;
     }
 
+    .text-light-primary {
+        color: $pastel-primary !important;
+    }
+
+    .text-light-secondary {
+        color: $pastel-secondary !important;
+    }
+
+    .text-light-success {
+        color: $pastel-success !important;
+    }
+
+    .text-light-info {
+        color: $pastel-info !important;
+    }
+
+    .text-light-warning {
+        color: $pastel-warning !important;
+    }
+
+    .text-light-danger {
+        color: $pastel-danger !important;
+    }
+
     .bg-primary {
         background-color: $primary !important;
     }
@@ -101,6 +132,36 @@
 
     .bg-gray {
         background-color: $gray;
+    }
+
+    .bg-light-primary {
+        background-color: $pastel-primary !important;
+        color: #000;
+    }
+
+    .bg-light-secondary {
+        background-color: $pastel-secondary !important;
+        color: #000;
+    }
+
+    .bg-light-success {
+        background-color: $pastel-success !important;
+        color: #000;
+    }
+
+    .bg-light-info {
+        background-color: $pastel-info !important;
+        color: #000;
+    }
+
+    .bg-light-warning {
+        background-color: $pastel-warning !important;
+        color: #000;
+    }
+
+    .bg-light-danger {
+        background-color: $pastel-danger !important;
+        color: #000;
     }
 
     .hover:hover {
