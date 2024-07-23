@@ -7,7 +7,6 @@
 html,
 body {
     height: 100%;
-    --ion-font-family: 'Varela Round';
 }
 
 body {
@@ -36,7 +35,12 @@ html {
     @include mat.progress-spinner-theme(light.$theme);
     @include mat.progress-bar-theme(light.$theme);
     @include mat.snack-bar-theme(light.$theme);
+    @include mat.sidenav-theme(light.$theme);
+    @include mat.toolbar-theme(light.$theme);
+    @include mat.list-theme(light.$theme);
+    @include mat.icon-theme(light.$theme);
     @include utils.mixins(light.$theme);
+
 
 }
 
@@ -52,5 +56,9 @@ html {
     @include mat.progress-spinner-color(dark.$theme);
     @include mat.progress-bar-color(dark.$theme);
     @include mat.snack-bar-color(dark.$theme);
+    @include mat.sidenav-color(dark.$theme);
+    @include mat.list-color(dark.$theme);
+    @include mat.toolbar-color(dark.$theme);
+    @include mat.icon-color(dark.$theme);
     @include utils.mixins(dark.$theme);
 }

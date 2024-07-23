@@ -1,1 +1,36 @@
-<p>home works!</p>
+<ng-container *ngrxLet="isDarkMode$ as darkMode">
+    <mat-toolbar class="header">
+        <div>teste</div>
+        <div></div>
+        <div>
+            <button mat-icon-button [class.text-primary]="darkMode" [class.text-info]="!darkMode"
+                    (click)="changeThemeMode(darkMode)">
+                <mat-icon> {{ darkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+            </button>
+            <button mat-icon-button (click)="logout()">
+                <mat-icon> logout </mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav mode="side" opened class="sidenav" [fixedInViewport]="true">
+            <div class="sidenav-header">
+                <h4 class="brand">The Gallery</h4>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-nav-list>
+                @for (nav of SIDENAV; track nav.title) {
+                    <a mat-list-item [routerLink]="nav.link">
+                        <mat-icon>{{ nav.icon }}</mat-icon>
+                        {{ nav.title }}
+                    </a>
+                }
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    <mat-toolbar class="footer"></mat-toolbar>
+</ng-container>

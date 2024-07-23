@@ -32,14 +32,18 @@ export class AuthService {
     }
 
     async signIn(signInDto: SignInDto) {
-        const auth: Auth | boolean  = await this.http.signIn(signInDto);
 
-        if(!auth || typeof auth === 'boolean') return;
-        const user = auth.user;
+        //TODO
+        // Aguardando backend em Python
 
-        this.localStorage.set(StorageKeys.auth, auth);
-        this.store.dispatch(setUser({ user: user }));
-        const to = [ `${RouteList.user}}` ]
+        // const auth: Auth | boolean  = await this.http.signIn(signInDto);
+        // if(!auth || typeof auth === 'boolean') return;
+        // const user = auth.user;
+        // this.localStorage.set(StorageKeys.auth, auth);
+        // this.store.dispatch(setUser({ user: user }));
+        console.log('oi')
+
+        const to = [RouteList.home]
         await this.router.navigate(to);
     }
 

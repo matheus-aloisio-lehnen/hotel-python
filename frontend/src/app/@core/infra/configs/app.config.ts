@@ -16,6 +16,7 @@ import { BR_PAGINATOR } from "./br-paginator.congif";
 import { SNACKBAR } from "./mat-snackbar.config";
 import { ROUTES } from "../../../app.routes";
 import { provideHttpClient } from "@angular/common/http";
+import { provideNgxMask } from "ngx-mask";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -25,6 +26,7 @@ export const appConfig: ApplicationConfig = {
         provideStore(reducers),
         provideEffects(),
         provideHttpClient(),
+        provideNgxMask(),
         { provide: LOCALE_ID, useValue: 'pt-BR' },
         { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: MAT_FORM_FIELD_CONFIG },

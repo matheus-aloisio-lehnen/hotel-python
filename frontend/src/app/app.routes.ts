@@ -5,8 +5,8 @@ import { PageNotFoundComponent } from "./@core/application/page-not-found/page-n
 
 export const ROUTES: Routes = [
     { path: '', redirectTo: RouteList.auth, pathMatch: 'full' },
-    { path: RouteList.home, loadChildren: () => import('./@core/application/home/home.routes').then(m => m.HOME_ROUTES) },
     { path: RouteList.auth, loadChildren: () => import('./@core/application/auth/auth.routes').then(m => m.AUTH_ROUTES) },
-    { path: RouteList.user, loadChildren: () => import('./@core/application/user/user.routes').then(m => m.USER_ROUTES), canActivate: [authGuard] },
+    // { path: RouteList.home, loadChildren: () => import('./@core/application/home/home.routes').then(m => m.HOME_ROUTES), canActivate: [authGuard] },
+    { path: RouteList.home, loadChildren: () => import('./@core/application/home/home.routes').then(m => m.HOME_ROUTES)},
     { path: RouteList.wildCard, component: PageNotFoundComponent },
 ];
