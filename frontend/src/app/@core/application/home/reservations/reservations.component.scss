@@ -1,19 +1,40 @@
-.container-reception {
+.container {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
     box-shadow: unset;
-}
 
+    .box-2 {
+        margin: .75rem 0;
+        .mat-mdc-table {
+            margin-top: .75rem;
+            padding: 1rem 0;
+            width: 100%;
+            overflow: hidden;
 
-@media (min-width: 600px) {
-    .container-reception {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto 1fr;
-        .box:nth-child(1),
-        .box:nth-child(2) {
-            grid-column: span 2;
+            .mat-column-room {
+                height: 75px;
+            }
         }
 
+        .mat-mdc-header-cell,
+        .mat-mdc-cell {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mat-mdc-cell {
+            opacity: 0.7;
+        }
+
+        //.has-reservation {
+        //    border-radius: 0.5rem;
+        //}
+
+        .has-reservation:hover {
+            opacity: 1;
+        }
     }
+
 }

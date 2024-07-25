@@ -30,16 +30,17 @@ import { TitleCasePipe } from "@angular/common";
 })
 export class RoomsComponent {
 
-    protected readonly ROOMS = ROOMS;
-    protected readonly RoomStatusEnum = RoomStatusEnum;
+    protected readonly rooms: Room[];
+    protected readonly RoomStatusEnum: typeof RoomStatusEnum;
     selectedRoom?: Room;
 
     constructor() {
-        console.log(RoomStatusEnum)
-        console.log(ROOMS)
+        this.rooms = ROOMS;
+        this.RoomStatusEnum = RoomStatusEnum;
     }
 
     selectRoom(room: Room) {
         this.selectedRoom = room;
     }
+
 }

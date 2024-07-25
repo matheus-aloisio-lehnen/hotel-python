@@ -41,10 +41,8 @@ export class AuthService {
         // const user = auth.user;
         // this.localStorage.set(StorageKeys.auth, auth);
         // this.store.dispatch(setUser({ user: user }));
-        console.log('oi')
 
-        const to = [RouteList.home]
-        await this.router.navigate(to);
+        await this.router.navigate(['']);
     }
 
     async signUp(createUserDto: CreateUserDto): Promise<User | boolean> {

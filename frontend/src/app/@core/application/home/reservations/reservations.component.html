@@ -1,12 +1,36 @@
-<mat-card class="container-reception">
-    <mat-card-header class="box">
+<mat-card class="container">
+    <mat-card-header class="box-1">
         <mat-card-title-group>
             <mat-card-title>Reservas</mat-card-title>
         </mat-card-title-group>
     </mat-card-header>
-    <div class="box">
-        2
-    </div>
-    <div class="box">3</div>
-    <div class="box">4</div>
+    <mat-card-content class="box-2">
+        <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedIndexChange)="onTabChange()">
+            @for (month of months; track month.id) {
+                <mat-tab [label]="month.name">
+                    <ng-template matTabContent>
+                        <mat-table [dataSource]="dataSource">
+                            @for (column of displayedColumns; let first = $first; track column) {
+                                <ng-container [matColumnDef]="column">
+                                    <mat-header-cell *matHeaderCellDef> {{ column === 'room' ? 'Quarto' : column }}</mat-header-cell>
+                                    <mat-cell [style.background-color]="getColor(column, element)"
+                                              [style.cursor]="hasReservation(column, element) ? 'pointer' : 'default'"
+                                              [class.has-reservation]="hasReservation(column, element)"
+                                              (click)="openReservation(column, element)"
+                                              *matCellDef="let element">
+                                        {{ getRowText(column, element) }}
+                                    </mat-cell>
+                                </ng-container>
+                            }
+                            <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        </mat-table>
+                    </ng-template>
+
+                </mat-tab>
+            }
+
+        </mat-tab-group>
+    </mat-card-content>
 </mat-card>
+
