@@ -12,9 +12,6 @@
             width: 100%;
             overflow: hidden;
 
-            .mat-column-room {
-                height: 75px;
-            }
         }
 
         .mat-mdc-header-cell,
@@ -28,9 +25,22 @@
             opacity: 0.7;
         }
 
-        //.has-reservation {
-        //    border-radius: 0.5rem;
-        //}
+        .start-date {
+            border-top-left-radius: 3rem;
+            border-bottom-left-radius: 3rem;
+            padding-left: 2rem;
+            padding-right: 1rem;
+        }
+        .end-date {
+            border-top-right-radius: 3rem;
+            border-bottom-right-radius: 3rem;
+            padding-left: 1rem;
+            padding-right: 2rem;
+        }
+
+        .has-reservation {
+            cursor: pointer !important;
+        }
 
         .has-reservation:hover {
             opacity: 1;

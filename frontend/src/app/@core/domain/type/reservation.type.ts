@@ -2,7 +2,9 @@ import { Guest } from "../model/guest";
 import { Room } from "../model/room";
 
 export type ReservationType = {
-    [date: string]: string | Room | Guest | undefined | null,
-    room: Room,
-    guest?: Guest | null,
+    // [day: string]: string,
+    // room: Room,
+    guest: Guest | null,
+    startDate: string,
+    endDate: string
 }

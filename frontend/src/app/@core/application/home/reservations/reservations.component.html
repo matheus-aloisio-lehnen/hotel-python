@@ -1,36 +1,41 @@
-<mat-card class="container">
-    <mat-card-header class="box-1">
-        <mat-card-title-group>
-            <mat-card-title>Reservas</mat-card-title>
-        </mat-card-title-group>
-    </mat-card-header>
-    <mat-card-content class="box-2">
-        <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedIndexChange)="onTabChange()">
-            @for (month of months; track month.id) {
-                <mat-tab [label]="month.name">
-                    <ng-template matTabContent>
-                        <mat-table [dataSource]="dataSource">
-                            @for (column of displayedColumns; let first = $first; track column) {
-                                <ng-container [matColumnDef]="column">
-                                    <mat-header-cell *matHeaderCellDef> {{ column === 'room' ? 'Quarto' : column }}</mat-header-cell>
-                                    <mat-cell [style.background-color]="getColor(column, element)"
-                                              [style.cursor]="hasReservation(column, element) ? 'pointer' : 'default'"
-                                              [class.has-reservation]="hasReservation(column, element)"
-                                              (click)="openReservation(column, element)"
-                                              *matCellDef="let element">
-                                        {{ getRowText(column, element) }}
-                                    </mat-cell>
-                                </ng-container>
-                            }
-                            <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
-                            <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                        </mat-table>
-                    </ng-template>
+<ng-container *ngrxLet="isDarkMode$ as darkMode">
+    <mat-card class="container">
+        <mat-card-header class="box-1">
+            <mat-card-title-group>
+                <mat-card-title>Reservas</mat-card-title>
+            </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="box-2">
+            <mat-tab-group [(selectedIndex)]="selectedMonth" (selectedIndexChange)="onTabChange()"
+                           mat-stretch-tabs="false" mat-align-tabs="center">
+                @for (month of months; track month.id) {
+                    <mat-tab [label]="month.name">
+                        <ng-template matTabContent>
+                            <mat-table [dataSource]="dataSource">
+                                @for (column of displayedColumns; track column) {
+                                    <ng-container [matColumnDef]="column">
+                                        <mat-header-cell
+                                                *matHeaderCellDef> {{ column === 'room' ? 'Quarto' : column }}
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let element"
+                                                  [style.background-color]="hasReservation(column, element) ? getColor(column, element) : 'transparent'"
+                                                  [class.has-reservation]="hasReservation(column, element)"
+                                                  [class.start-date]="isStartDate(column, element)"
+                                                  [class.end-date]="isEndDate(column, element)"
+                                                  (click)="openReservation(column, element)">
+                                            {{ getTableText(column, element) }}
+                                        </mat-cell>
+                                    </ng-container>
+                                }
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                            </mat-table>
+                        </ng-template>
 
-                </mat-tab>
-            }
+                    </mat-tab>
+                }
 
-        </mat-tab-group>
-    </mat-card-content>
-</mat-card>
-
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+</ng-container>

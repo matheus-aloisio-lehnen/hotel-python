@@ -1,7 +1,7 @@
-import { ReservationType } from "../type/reservation.type";
 import { RoomStatusEnum } from "../enum/room-status.enum";
-import { Guest } from "../model/guest";
 import { Room } from "../model/room";
+import { Guest } from "../model/guest";
+import { formatDate } from "@angular/common";
 
 const getRandomInt = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -29,47 +29,48 @@ const getRandomName = (): string => {
     return `${firstName} ${lastName}`;
 };
 
-// Função para gerar reservas aleatórias para um mês e 10 quartos
-export const generateRandomReservations = (month: number, roomsQuantity: number): ReservationType[] => {
-    const daysInMonth = new Date(new Date().getFullYear(), month, 0).getDate(); // Obtém o número de dias no mês
-    const rooms: Room[] = Array.from({ length: roomsQuantity }, (_, i) => ({
-        name: `${i + 1}`,
-        // name: `${i + 1}`,
-        status: RoomStatusEnum.reserved,
-        price: 250 + i * 10, // Exemplo de estratégia de preços
-    }));
-
+export const generateRandomReservations = (month: number, roomsQuantity: number) => {
+    const daysInMonth = new Date(new Date().getFullYear(), month, 0).getDate();
     const guests: Guest[] = Array.from({ length: 30 }, (_, i) => ({
         id: i + 1,
         name: getRandomName(),
     }));
+    const rooms: Room[] = Array.from({ length: roomsQuantity }, (_, i) => ({
+        number: i + 1,
+        status: RoomStatusEnum.reserved,
+        price: 250,
+        reservations: []
+    }));
 
-    const reservations: ReservationType[] = [];
 
-    for (let room of rooms) {
-        const roomReservations: { [date: string]: string | undefined } = {};
+    rooms.forEach(room => {
         let day = 1;
 
         while (day <= daysInMonth) {
-            if (Math.random() > 0.5) {
+            const shouldGenerateReservation = Math.random() > 0.7;
+            if(shouldGenerateReservation) {
                 const stayLength = getRandomInt(2, 3); // Duração da estadia (2 ou 3 dias)
-                const guest = guests[getRandomInt(0, guests.length - 1)]; // Seleciona um hóspede aleatório
 
-                for (let i = 0; i < stayLength && day <= daysInMonth; i++) {
-                    roomReservations[day] = guest.name;
-                    day++;
+                if (day + stayLength - 1 > daysInMonth) {
+                    break;
                 }
+
+                const guest = guests[getRandomInt(0, guests.length - 1)];
+                const startDate = new Date(new Date().getFullYear(), month - 1, day);
+                const endDate = new Date(startDate);
+                endDate.setDate(startDate.getDate() + stayLength - 1);
+
+                room.reservations.push({
+                    guest: guest,
+                    startDate: formatDate(startDate, 'dd-MM-yyyy', 'pt-BR'),
+                    endDate: formatDate(endDate, 'dd-MM-yyyy', 'pt-BR'),
+                });
+                day += stayLength;
             } else {
                 day++;
             }
         }
+    })
 
-        reservations.push({
-            ...roomReservations,
-            room: room,
-            guest: undefined // Conformidade com o tipo `ReservationType`
-        });
-    }
-
-    return reservations;
+    return rooms;
 }

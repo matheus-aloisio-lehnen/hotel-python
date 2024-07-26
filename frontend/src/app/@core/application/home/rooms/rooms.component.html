@@ -8,18 +8,18 @@
         @for (room of rooms; track room) {
             <mat-card appearance="outlined"
                       (click)="selectRoom(room)"
-                      [class.selected]="selectedRoom?.name === room.name"
+                      [class.selected]="selectedRoom?.number === room.number"
                       [class.bg-light-success]="room.status === RoomStatusEnum.free"
                       [class.bg-light-warning]="room.status === RoomStatusEnum.reserved"
                       [class.bg-light-danger]="room.status === RoomStatusEnum.busy" matRipple>
-                <mat-card-title>Quarto {{ room.name }}</mat-card-title>
+                <mat-card-title>Quarto {{ room.number }}</mat-card-title>
             </mat-card>
         }
     </mat-card-content>
     @if (selectedRoom) {
         <mat-card-footer class="box-3">
             <mat-card class="card" appearance="outlined">
-                <mat-card-title>Quarto {{ selectedRoom.name }} - Resumo</mat-card-title>
+                <mat-card-title>Quarto {{ selectedRoom.number }} - Resumo</mat-card-title>
                 <mat-card-content>
                     <span> Status: {{ selectedRoom.status | titlecase }}</span>
                 </mat-card-content>

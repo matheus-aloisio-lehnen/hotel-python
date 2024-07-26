@@ -1,7 +1,9 @@
 import { RoomStatusEnum } from "../enum/room-status.enum";
+import { ReservationType } from "../type/reservation.type";
 
 export type Room = {
-    name: string,
+    number: number,
     status: RoomStatusEnum,
-    price: number
+    price: number,
+    reservations: ReservationType[]
 }

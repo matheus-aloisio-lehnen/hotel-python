@@ -17,6 +17,10 @@ import { SNACKBAR } from "./mat-snackbar.config";
 import { ROUTES } from "../../../app.routes";
 import { provideHttpClient } from "@angular/common/http";
 import { provideNgxMask } from "ngx-mask";
+import { registerLocaleData } from "@angular/common";
+import ptBr from '@angular/common/locales/pt';
+registerLocaleData(ptBr);
+
 
 export const appConfig: ApplicationConfig = {
     providers: [

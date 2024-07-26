@@ -3,33 +3,39 @@ import { RoomStatusEnum } from "../enum/room-status.enum";
 
 export const ROOMS: Room[] = [
     {
-        name: '1',
+        number: 1,
         status: RoomStatusEnum.busy,
-        price: 150
+        price: 150,
+        reservations: []
     },
     {
-        name: '2',
+        number: 2,
         status: RoomStatusEnum.free,
-        price: 150
+        price: 150,
+        reservations: []
     },
     {
-        name: '3',
+        number: 3,
         status: RoomStatusEnum.reserved,
-        price: 150
+        price: 150,
+        reservations: []
     },
     {
-        name: '4',
+        number: 4,
         status: RoomStatusEnum.busy,
-        price: 250
+        price: 250,
+        reservations: []
     },
     {
-        name: '5',
+        number: 5,
         status: RoomStatusEnum.free,
-        price: 250
+        price: 250,
+        reservations: []
     },
     {
-        name: '7',
+        number: 6,
         status: RoomStatusEnum.reserved,
-        price: 250
+        price: 250,
+        reservations: []
     }
 ]

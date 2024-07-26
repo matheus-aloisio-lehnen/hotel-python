@@ -6,8 +6,14 @@ import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
 import { MONTHS } from "../../../domain/constants/months.constants";
 import { generateRandomReservations } from "../../../domain/mock/reservation.mock";
 import { MonthType } from "../../../domain/type/month.type";
-import { ReservationType } from "../../../domain/type/reservation.type";
 import { ROOMS } from "../../../domain/mock/rooms.mock";
+import { Room } from "../../../domain/model/room";
+import { formatDate } from "@angular/common";
+import { LetDirective } from "@ngrx/component";
+import { BaseComponent } from "../../shared/base/base.component";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { AppState } from "../../../infra/store/ngrx/state/app.state";
 
 @Component({
     selector: 'app-reservations',
@@ -19,99 +25,36 @@ import { ROOMS } from "../../../domain/mock/rooms.mock";
         MatCardModule,
         MatTabsModule,
         MatTableModule,
+        LetDirective,
     ]
 })
-export class ReservationsComponent {
+export class ReservationsComponent extends BaseComponent {
 
     @ViewChild(MatTabGroup) tabs!: MatTabGroup;
     protected readonly months: MonthType[];
-    selectedIndex: number;
-    dataSource: ReservationType[];
+    selectedMonth: number;
+    dataSource: any[];
     displayedColumns: string[];
 
-    constructor() {
+    constructor(
+        store: Store<AppState>,
+        router: Router
+    ) {
+        super(store, router);
         this.months = MONTHS;
-        this.selectedIndex = 0;
-        this.dataSource = generateRandomReservations(this.selectedIndex + 1, ROOMS.length);
-        this.displayedColumns = this.generateColumns(this.selectedIndex + 1);
-        // this.generateReservationColors();
+        this.selectedMonth = 0;
+        this.dataSource = generateRandomReservations(this.selectedMonth + 1, ROOMS.length);
+        this.displayedColumns = this.getDisplayedColumns(this.selectedMonth + 1);
+        console.log(this.dataSource)
     }
-
-
 
     onTabChange() {
-        const month = this.selectedIndex + 1;
+        const month = this.selectedMonth + 1;
         this.dataSource = generateRandomReservations(month, ROOMS.length);
-        this.displayedColumns = this.generateColumns(month);
+        this.displayedColumns = this.getDisplayedColumns(month);
     }
 
-    openReservation(column: any, element: any) {
-        if(!column) return;
-        const guest = this.filterByGuest(element[column], element.room.name, Number(column));
-    }
-
-    filterByGuest(name: string, roomName: number, clickedDay: number) {
-        const daysWithRoom = this.dataSource.filter((data: any) => {
-            return data['room'] && data['room'].name === roomName;
-        });
-        const daysWithReservationByGuestName = daysWithRoom.map((data: any) => {
-            const filteredDay: any = {};
-            Object.keys(data).forEach(key => {
-                if (key !== 'room' && data[key] === name) {
-                    filteredDay[key] = data[key];
-                }
-            });
-            return filteredDay;
-        }).filter(day => Object.keys(day).length > 0);
-        const result = daysWithReservationByGuestName.flatMap((data: any) => {
-            return Object.keys(data).filter(key => !isNaN(Number(key))).map((key: any) => {
-                return {
-                    date: new Date(new Date().getFullYear(), this.selectedIndex, key),
-                    guest: name
-                };
-            });
-        }).sort((a: any, b: any) => a.date.getTime() - b.date.getTime()); // Ordena as datas;
-        // Identifica o streak de reservas consecutivas a partir do dia clicado
-
-
-        const streakStartingDate = new Date(new Date().getFullYear(), this.selectedIndex, clickedDay);
-        console.log(streakStartingDate)
-        const streak: any[] = [];
-        let currentStreak: any[] = [];
-
-
-
-        for (const day of daysWithReservationByGuestName) {
-            console.log('day', day)
-            if (currentStreak.length === 0) {
-                const date = new Date(new Date().getFullYear(), this.selectedIndex, clickedDay);
-                if (date.getTime() === streakStartingDate.getTime()) {
-                    currentStreak.push(day);
-                }
-            } else {
-
-                const lastDay = currentStreak[currentStreak.length - 1];
-                if (day.date.getTime() === new Date(lastDay.date.getTime() + 24 * 60 * 60 * 1000).getTime()) {
-                    // Se o dia atual é o dia seguinte ao último, adiciona ao streak
-                    currentStreak.push(day);
-                } else {
-                    // Se o streak foi iniciado e não é mais consecutivo, termina o streak
-                    break;
-                }
-            }
-        }
-
-        console.log(currentStreak)
-
-        // Retorna o streak iniciado a partir do dia clicado
-        return currentStreak;
-    }
-
-    hasReservation(column: string, element: any) {
-        return column !== 'room' && element[column];
-    }
-
-    generateColumns(month: number): any[] {
+    getDisplayedColumns(month: number): any[] {
         const columns = ['room'];
         const numDays = new Date(new Date().getFullYear(), month, 0).getDate();
         for (let day = 1; day <= numDays; day++) {
@@ -121,38 +64,55 @@ export class ReservationsComponent {
         return columns;
     }
 
-    getRowText(column: string, element: any) {
-        return column === 'room'
-            ? element[column]?.name
-            : element[column];
+    getTableText(column: string, room: Room) {
+        if(column === 'room') return room.number;
+        return this.findReservation(column, room)?.guest?.name;
     }
 
-    getColor(column: string, element: any) {
-        const guestName = element[column];
-        return this.hasReservation(column, element)
-            ? this.generateColor(guestName)
-            : 'transparent'
+    openReservation(column: string, room: Room) {
+        console.log(this.findReservation(column, room))
+    }
+
+    findReservation(column: string, room: Room) {
+        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'dd-MM-yyyy', 'pt-BR')
+        return room.reservations.find(reservation => selectedDate >= reservation.startDate && selectedDate <= reservation.endDate);
+    }
+
+    hasReservation(column: string, element: Room) {
+        if(column === 'room') return false;
+        return this.findReservation(column, element)
+    }
+
+    isStartDate(column: string, room: Room) {
+        if(column === 'room') return false;
+        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'dd-MM-yyyy', 'pt-BR');
+        return selectedDate === this.findReservation(column, room)?.startDate;
+    }
+
+    isEndDate(column: string, room: Room) {
+        if(column === 'room') return false;
+        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'dd-MM-yyyy', 'pt-BR');
+        return selectedDate === this.findReservation(column, room)?.endDate;
+    }
+
+    getColor(column: string, room: Room) {
+        const guestName = this.findReservation(column, room)?.guest?.name;
+
+        if(!guestName) return;
+        return this.generateColor(guestName)
     }
 
     generateColor(name: string): string {
-
-        // Gera um valor hash baseado no nome
-        const hash = Array.from(name).reduce((acc, char) => {
-            return (acc * 31 + char.charCodeAt(0)) & 0xFFFFFF;
-        }, 0);
-        // Converte o hash em uma cor RGB e ajusta para ser pastel
-        const r = (hash >> 16) & 0xFF;
-        const g = (hash >> 8) & 0xFF;
-        const b = hash & 0xFF;
-
-        // Ajuste para cores pastéis
-        const pastelR = (r + 255) / 2;
-        const pastelG = (g + 255) / 2;
-        const pastelB = (b + 255) / 2;
-
-        // Garante que os valores estejam dentro do intervalo RGB
-        return `rgb(${ Math.min(pastelR, 255) }, ${ Math.min(pastelG, 255) }, ${ Math.min(pastelB, 255) })`;
+        const hash = Array.from(name).reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) & 0xFFFFFF, 0);
+        const pastelColors = [
+            'rgb(173, 216, 230)',
+            'rgb(152, 251, 152)',
+            'rgb(255, 182, 193)',
+            'rgb(255, 200, 124)',
+            'rgb(216, 191, 216)'
+        ];
+        const colorIndex = hash % pastelColors.length;
+        return pastelColors[colorIndex];
     }
-
 
 }
