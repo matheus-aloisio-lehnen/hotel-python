@@ -1,41 +1,65 @@
 import { Room } from "../model/room";
-import { RoomStatusEnum } from "../enum/room-status.enum";
+import { RoomStatus } from "../enum/room-status.enum";
 
 export const ROOMS: Room[] = [
     {
         number: 1,
-        status: RoomStatusEnum.busy,
+        status: RoomStatus.busy,
         price: 150,
         reservations: []
     },
     {
         number: 2,
-        status: RoomStatusEnum.free,
+        status: RoomStatus.free,
         price: 150,
         reservations: []
     },
     {
         number: 3,
-        status: RoomStatusEnum.reserved,
+        status: RoomStatus.reserved,
         price: 150,
         reservations: []
     },
     {
         number: 4,
-        status: RoomStatusEnum.busy,
+        status: RoomStatus.busy,
         price: 250,
         reservations: []
     },
     {
         number: 5,
-        status: RoomStatusEnum.free,
+        status: RoomStatus.free,
         price: 250,
         reservations: []
     },
     {
         number: 6,
-        status: RoomStatusEnum.reserved,
+        status: RoomStatus.reserved,
         price: 250,
         reservations: []
-    }
+    },
+    // {
+    //     number: 7,
+    //     status: RoomStatus.reserved,
+    //     price: 250,
+    //     reservations: []
+    // },
+    // {
+    //     number: 8,
+    //     status: RoomStatus.reserved,
+    //     price: 250,
+    //     reservations: []
+    // },
+    // {
+    //     number: 9,
+    //     status: RoomStatus.reserved,
+    //     price: 250,
+    //     reservations: []
+    // },
+    // {
+    //     number: 10,
+    //     status: RoomStatus.reserved,
+    //     price: 250,
+    //     reservations: []
+    // }
 ]

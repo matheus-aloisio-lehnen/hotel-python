@@ -1,20 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable, Subscription, tap } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { Store } from "@ngrx/store";
-import { AsyncPipe } from "@angular/common";
 
-import {
-    MatCard,
-    MatCardActions,
-    MatCardAvatar,
-    MatCardContent,
-    MatCardHeader,
-    MatCardImage, MatCardSubtitle, MatCardTitle
-} from "@angular/material/card";
-import { MatButton } from "@angular/material/button";
 import { registerAllIcons } from "./@core/infra/utils/icon/icon.utils";
 import { AppState } from "./@core/infra/store/ngrx/state/app.state";
+import { OverlayContainer } from "@angular/cdk/overlay";
+import { LetDirective } from "@ngrx/component";
 
 @Component({
     selector: 'app-root',
@@ -24,65 +16,25 @@ import { AppState } from "./@core/infra/store/ngrx/state/app.state";
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         RouterModule,
-        AsyncPipe,
-        MatCard,
-        MatButton,
-        MatCardActions,
-        MatCardAvatar,
-        MatCardContent,
-        MatCardHeader,
-        MatCardImage,
-        MatCardSubtitle,
-        MatCardTitle
+        LetDirective
     ],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
 
-    title = 'frontend';
     isDarkMode$: Observable<boolean>;
-
-    subscriptions$: Subscription[];
 
     constructor(
         private store: Store<AppState>,
+        private overlayContainer: OverlayContainer,
     ) {
         this.isDarkMode$ = this.store.select((app: AppState) => app.isDarkMode)
-            // .pipe(tap(result => console.log('oi', result)));
-        this.subscriptions$ = [];
+            .pipe(tap(isDarkMode => this.changeTheme(isDarkMode)));
         registerAllIcons();
     }
 
-    ngOnInit(): void {
-        this.subscribeAll();
+    private changeTheme(isDarkMode: boolean) {
+        this.overlayContainer.getContainerElement().classList.add(isDarkMode ? 'dark-theme' : 'light-theme');
+        this.overlayContainer.getContainerElement().classList.remove(isDarkMode ? 'light-theme' : 'dark-theme');
     }
-
-    subscribeAll() {
-        this.subscriptions$ = [
-            // this.subscribeThemeChange(),
-        ]
-    }
-
-    subscribeThemeChange() {
-        // return this.configuracoesService.isDarkMode$
-        //   .subscribe(isDarkMode => {
-        //     this.isDarkMode = isDarkMode;
-        //     this.getThemeConfig();
-        //     // this.applyBodyColor()
-        //   });
-
-    }
-
-    // @HostBinding('class')
-    // get themeMode() {
-    //     return this.isDarkMode
-    //         ? 'dark-theme'
-    //         : 'light-theme';
-    // }
-
-
-    ngOnDestroy(): void {
-        this.subscriptions$.forEach(subscription => subscription.unsubscribe())
-    }
-
 
 }

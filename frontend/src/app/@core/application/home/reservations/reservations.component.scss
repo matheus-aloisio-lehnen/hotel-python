@@ -6,19 +6,13 @@
 
     .box-2 {
         margin: .75rem 0;
+        max-width: 94vw;
+
+
         .mat-mdc-table {
             margin-top: .75rem;
             padding: 1rem 0;
-            width: 100%;
             overflow: hidden;
-
-        }
-
-        .mat-mdc-header-cell,
-        .mat-mdc-cell {
-            text-align: center;
-            display: flex;
-            justify-content: center;
         }
 
         .mat-mdc-cell {
@@ -31,6 +25,7 @@
             padding-left: 2rem;
             padding-right: 1rem;
         }
+
         .end-date {
             border-top-right-radius: 3rem;
             border-bottom-right-radius: 3rem;
@@ -44,6 +39,16 @@
 
         .has-reservation:hover {
             opacity: 1;
+        }
+
+    }
+
+    .box-3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .mat-mdc-card {
+            width: 50%;
         }
     }
 

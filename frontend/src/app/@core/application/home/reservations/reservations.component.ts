@@ -2,18 +2,32 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
+import { DatePipe, formatDate, TitleCasePipe } from "@angular/common";
+import { LetDirective } from "@ngrx/component";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatIconModule } from "@angular/material/icon";
+import { Observable } from "rxjs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import { MONTHS } from "../../../domain/constants/months.constants";
-import { generateRandomReservations } from "../../../domain/mock/reservation.mock";
 import { MonthType } from "../../../domain/type/month.type";
 import { ROOMS } from "../../../domain/mock/rooms.mock";
 import { Room } from "../../../domain/model/room";
-import { formatDate } from "@angular/common";
-import { LetDirective } from "@ngrx/component";
 import { BaseComponent } from "../../shared/base/base.component";
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
 import { AppState } from "../../../infra/store/ngrx/state/app.state";
+import { Reservation } from "../../../domain/model/reservation";
+import { generateColor } from "../../../infra/utils/colors/color-generator";
+import { AddReservationComponent } from "./dialogs/add-reservation/add-reservation.component";
+import { DeleteReservationComponent } from "./dialogs/delete-reservation/delete-reservation.component";
+import { setRoom, setRoomList } from "../../../infra/store/ngrx/actions/room.actions";
+import { selectRoom, selectRoomList } from "../../../infra/store/ngrx/selectors/room.selector";
+import { setReservation } from "../../../infra/store/ngrx/actions/reservation.actions";
+import { selectReservation } from "../../../infra/store/ngrx/selectors/reservation.selector";
+import { EditReservationComponent } from "./dialogs/edit-reservation/edit-reservation.component";
+import { generateRandomReservations } from "../../../infra/utils/generators/random-reservation";
 
 @Component({
     selector: 'app-reservations',
@@ -26,6 +40,11 @@ import { AppState } from "../../../infra/store/ngrx/state/app.state";
         MatTabsModule,
         MatTableModule,
         LetDirective,
+        MatDividerModule,
+        MatIconModule,
+        MatButtonModule,
+        TitleCasePipe,
+        DatePipe
     ]
 })
 export class ReservationsComponent extends BaseComponent {
@@ -33,86 +52,104 @@ export class ReservationsComponent extends BaseComponent {
     @ViewChild(MatTabGroup) tabs!: MatTabGroup;
     protected readonly months: MonthType[];
     selectedMonth: number;
-    dataSource: any[];
+    roomList$: Observable<Room[]>;
     displayedColumns: string[];
+    selectedReservation$: Observable<Reservation | null>;
+    selectedRoom$: Observable<Room | null>
+    today: string;
 
     constructor(
         store: Store<AppState>,
-        router: Router
+        router: Router,
+        private dialog: MatDialog
     ) {
         super(store, router);
         this.months = MONTHS;
-        this.selectedMonth = 0;
-        this.dataSource = generateRandomReservations(this.selectedMonth + 1, ROOMS.length);
+        this.selectedMonth = new Date().getMonth();
         this.displayedColumns = this.getDisplayedColumns(this.selectedMonth + 1);
-        console.log(this.dataSource)
+        this.roomList$ = this.store.select(selectRoomList);
+        this.selectedRoom$ = this.store.select(selectRoom);
+        this.selectedReservation$ = this.store.select(selectReservation);
+        this.store.dispatch(setRoom({ room: null}))
+        this.today = formatDate(new Date(), 'dd', 'pt-BR');
+        console.log(this.today)
     }
 
     onTabChange() {
         const month = this.selectedMonth + 1;
-        this.dataSource = generateRandomReservations(month, ROOMS.length);
+        this.store.dispatch(setRoomList({ roomList: generateRandomReservations(month, ROOMS.length) }))
         this.displayedColumns = this.getDisplayedColumns(month);
     }
 
     getDisplayedColumns(month: number): any[] {
-        const columns = ['room'];
+        const columns = [ 'room' ];
         const numDays = new Date(new Date().getFullYear(), month, 0).getDate();
         for (let day = 1; day <= numDays; day++) {
-            columns.push(day.toString());
+            const formattedDay = day.toString().padStart(2, '0');
+            columns.push(formattedDay);
         }
 
         return columns;
     }
 
     getTableText(column: string, room: Room) {
-        if(column === 'room') return room.number;
-        return this.findReservation(column, room)?.guest?.name;
+        if (column === 'room') return room.number;
+        return this.isStartDate(column, room) || this.isEndDate(column, room) ? this.findReservation(column, room)?.guest?.personalData?.name : '';
     }
 
-    openReservation(column: string, room: Room) {
-        console.log(this.findReservation(column, room))
+    showDetails(column: string, room: Room) {
+        this.store.dispatch(setRoom({ room: room }));
+        this.store.dispatch(setReservation( { reservation: this.findReservation(column, room)}))
     }
 
     findReservation(column: string, room: Room) {
-        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'dd-MM-yyyy', 'pt-BR')
-        return room.reservations.find(reservation => selectedDate >= reservation.startDate && selectedDate <= reservation.endDate);
+        const selectedDate = new Date(new Date().getFullYear(), this.selectedMonth, Number(column));
+        return room.reservations?.find(reservation => selectedDate >= reservation.startDate && selectedDate <= reservation.endDate) ?? null;
     }
 
     hasReservation(column: string, element: Room) {
-        if(column === 'room') return false;
+        if (column === 'room') return false;
         return this.findReservation(column, element)
     }
 
     isStartDate(column: string, room: Room) {
-        if(column === 'room') return false;
-        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'dd-MM-yyyy', 'pt-BR');
-        return selectedDate === this.findReservation(column, room)?.startDate;
+        if (column === 'room') return false;
+        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'yyyy-MM-dd', 'pt-BR');
+        const reservation = this.findReservation(column, room);
+        if(!reservation) return false;
+        return selectedDate === formatDate(reservation.startDate, 'yyyy-MM-dd', 'pt-BR');
     }
 
     isEndDate(column: string, room: Room) {
-        if(column === 'room') return false;
-        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'dd-MM-yyyy', 'pt-BR');
-        return selectedDate === this.findReservation(column, room)?.endDate;
+        if (column === 'room') return false;
+
+        const selectedDate = formatDate(new Date(new Date().getFullYear(), this.selectedMonth, Number(column)), 'yyyy-MM-dd', 'pt-BR');
+        const reservation = this.findReservation(column, room);
+        if(!reservation) return false;
+        return selectedDate === formatDate(reservation.endDate, 'yyyy-MM-dd', 'pt-BR');
     }
 
     getColor(column: string, room: Room) {
-        const guestName = this.findReservation(column, room)?.guest?.name;
+        const guestName = this.findReservation(column, room)?.guest?.personalData?.name;
 
-        if(!guestName) return;
-        return this.generateColor(guestName)
+        if (!guestName) return;
+        return generateColor(guestName)
     }
 
-    generateColor(name: string): string {
-        const hash = Array.from(name).reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) & 0xFFFFFF, 0);
-        const pastelColors = [
-            'rgb(173, 216, 230)',
-            'rgb(152, 251, 152)',
-            'rgb(255, 182, 193)',
-            'rgb(255, 200, 124)',
-            'rgb(216, 191, 216)'
-        ];
-        const colorIndex = hash % pastelColors.length;
-        return pastelColors[colorIndex];
+    add() {
+        this.dialog.open(AddReservationComponent)
+    }
+
+    edit(reservation: Reservation) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = reservation;
+        this.dialog.open(EditReservationComponent, dialogConfig)
+    }
+
+    delete(reservation: Reservation) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = reservation;
+        this.dialog.open(DeleteReservationComponent, dialogConfig);
     }
 
 }

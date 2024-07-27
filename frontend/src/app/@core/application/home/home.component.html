@@ -3,8 +3,7 @@
         <div>teste</div>
         <div></div>
         <div>
-            <button mat-icon-button [class.text-primary]="darkMode" [class.text-info]="!darkMode"
-                    (click)="changeThemeMode(darkMode)">
+            <button mat-icon-button (click)="changeThemeMode(darkMode)">
                 <mat-icon> {{ darkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
             </button>
             <button mat-icon-button (click)="logout()">

@@ -1,3 +1,5 @@
-<div [class.dark-theme]="isDarkMode$ | async">
-    <router-outlet></router-outlet>
-</div>
+<ng-container *ngrxLet="isDarkMode$ as isDarkMode">
+    <div [class.dark-theme]="isDarkMode">
+        <router-outlet></router-outlet>
+    </div>
+</ng-container>

@@ -14,6 +14,10 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { LetDirective } from "@ngrx/component";
 import { RouteList } from "../../domain/enum/route-list.enum";
+import { setRoomList } from "../../infra/store/ngrx/actions/room.actions";
+import { ROOMS } from "../../domain/mock/rooms.mock";
+import { generateRandomReservations } from "../../infra/utils/generators/random-reservation";
+import { selectRoomList } from "../../infra/store/ngrx/selectors/room.selector";
 
 @Component({
     selector: 'app-home',
@@ -44,10 +48,13 @@ export class HomeComponent extends BaseComponent {
         super(store, router);
         this.navHovered = false;
         this.SIDENAV = SIDENAV;
+        this.store.dispatch(setRoomList({ roomList: generateRandomReservations(new Date().getMonth() + 1, ROOMS.length) }))
+
+        const teste = this.store.select(selectRoomList).subscribe(result => console.log(result))
     }
 
     logout() {
-        const to = [ RouteList.auth ]
-        this.router.navigate(to)
+        this.router.navigate([ RouteList.auth ])
     }
+
 }

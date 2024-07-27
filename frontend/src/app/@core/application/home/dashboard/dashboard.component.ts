@@ -4,7 +4,11 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { ROOMS } from "../../../domain/mock/rooms.mock";
 import { Room } from "../../../domain/model/room";
-import { RoomStatusEnum } from "../../../domain/enum/room-status.enum";
+import { RoomStatus } from "../../../domain/enum/room-status.enum";
+import { BaseComponent } from "../../shared/base/base.component";
+import { Store } from "@ngrx/store";
+import { AppState } from "../../../infra/store/ngrx/state/app.state";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-dashboard',
@@ -18,15 +22,19 @@ import { RoomStatusEnum } from "../../../domain/enum/room-status.enum";
         MatIconModule
     ],
 })
-export class DashboardComponent {
+export class DashboardComponent extends BaseComponent {
 
     protected readonly ROOMS: Room[];
     freeRooms: number;
 
-    constructor() {
+    constructor(
+        store: Store<AppState>,
+        router: Router,
+    ) {
+        super(store, router);
         this.ROOMS = ROOMS;
         this.freeRooms = ROOMS.reduce((total, value) => {
-            return value.status === RoomStatusEnum.free
+            return value.status === RoomStatus.free
                 ? total + 1
                 : total;
         }, 0)

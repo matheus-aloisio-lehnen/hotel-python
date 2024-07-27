@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { DialogBaseComponent } from './dialog-base.component';
 
@@ -10,7 +9,7 @@ describe('DialogBaseComponent', () => {
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ DialogBaseComponent ],
-            imports: [ IonicModule.forRoot() ]
+            imports: [  ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(DialogBaseComponent);
