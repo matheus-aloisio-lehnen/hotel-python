@@ -1,27 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-    MatCardModule,
-} from "@angular/material/card";
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { MatCardModule, } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
-import { RoomStatus } from "../../../domain/enum/room-status.enum";
 import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { MatRippleModule } from "@angular/material/core";
-import { Room } from "../../../domain/model/room";
 import { CurrencyPipe, DatePipe, formatDate, TitleCasePipe } from "@angular/common";
-import { BaseComponent } from "../../shared/base/base.component";
-import { AppState } from "../../../infra/store/ngrx/state/app.state";
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { LetDirective } from "@ngrx/component";
-import { Observable } from "rxjs";
+
+import { RoomStatus } from "../../../domain/enum/room-status.enum";
+import { Room } from "../../../domain/model/room";
+import { BaseComponent } from "../../shared/base/base.component";
+import { AppState } from "../../../infra/store/ngrx/state/app.state";
 import { Reservation } from "../../../domain/model/reservation";
-import { selectReservation } from "../../../infra/store/ngrx/selectors/reservation.selector";
-import { selectRoom, selectRoomList } from "../../../infra/store/ngrx/selectors/room.selector";
 import { setRoom } from "../../../infra/store/ngrx/actions/room.actions";
 import { setReservation } from "../../../infra/store/ngrx/actions/reservation.actions";
 import { CpfPipe } from "../../../infra/utils/pipes/cpf.pipe";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
     selector: 'app-rooms',
@@ -35,6 +32,7 @@ import { CpfPipe } from "../../../infra/utils/pipes/cpf.pipe";
         MatDividerModule,
         MatCardModule,
         MatListModule,
+        MatTooltipModule,
         MatRippleModule,
         TitleCasePipe,
         LetDirective,
@@ -43,12 +41,9 @@ import { CpfPipe } from "../../../infra/utils/pipes/cpf.pipe";
         CpfPipe
     ],
 })
-export class RoomsComponent extends BaseComponent {
+export class RoomsComponent extends BaseComponent implements OnDestroy {
 
     protected readonly RoomStatusEnum: typeof RoomStatus;
-    roomList$: Observable<Room[]>;
-    selectedRoom$: Observable<Room | null>
-    selectedReservation$: Observable<Reservation | null>
 
     constructor(
         store: Store<AppState>,
@@ -57,9 +52,6 @@ export class RoomsComponent extends BaseComponent {
     ) {
         super(store, router);
         this.RoomStatusEnum = RoomStatus;
-        this.roomList$ = this.store.select(selectRoomList);
-        this.selectedRoom$ = this.store.select(selectRoom);
-        this.selectedReservation$ = this.store.select(selectReservation);
     }
 
     selectRoom(room: Room) {
@@ -71,6 +63,10 @@ export class RoomsComponent extends BaseComponent {
     findReservation(room: Room) {
         const formattedToday = formatDate(new Date(), 'yyyy-MM-dd', 'pt-BR');
         return room.reservations?.find((reservation: Reservation) => formattedToday >= formatDate(reservation.startDate, 'yyyy-MM-dd', 'pt-BR') && formattedToday <= formatDate(reservation.endDate, 'yyyy-MM-dd', 'pt-BR')) ?? null;
+    }
+
+    ngOnDestroy() {
+        this.store.dispatch(setRoom( { room: null }));
     }
 
 }

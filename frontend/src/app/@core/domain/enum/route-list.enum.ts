@@ -8,4 +8,5 @@ export enum RouteList {
     dashboard = 'dashboard',
     rooms = 'rooms',
     reservations = 'reservations',
+    cashFlow = 'cash-flow',
 }

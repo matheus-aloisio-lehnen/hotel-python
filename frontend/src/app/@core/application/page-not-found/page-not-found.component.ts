@@ -5,7 +5,6 @@ import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../infra/store/ngrx/state/app.state";
 import { Loading } from "../../domain/enum/loading.enum";
-import { RouteList } from "../../domain/enum/route-list.enum";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { Router, RouterModule } from "@angular/router";
@@ -27,7 +26,6 @@ import { MatIconModule } from "@angular/material/icon";
 })
 export class PageNotFoundComponent extends BaseComponent {
 
-    protected readonly RouteList: typeof RouteList;
     loading$: Observable<boolean>;
 
     constructor(
@@ -38,7 +36,6 @@ export class PageNotFoundComponent extends BaseComponent {
         this.loading$ = this.store.select((appState: AppState) => {
             return appState.loading[Loading.signIn] || appState.loading[Loading.signUp]
         });
-        this.RouteList = RouteList;
     }
 
 }

@@ -2,13 +2,23 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
-import { ROOMS } from "../../../domain/mock/rooms.mock";
 import { Room } from "../../../domain/model/room";
 import { RoomStatus } from "../../../domain/enum/room-status.enum";
 import { BaseComponent } from "../../shared/base/base.component";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../../infra/store/ngrx/state/app.state";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { LetDirective } from "@ngrx/component";
+import { Reservation } from "../../../domain/model/reservation";
+import { DatePipe, formatDate, TitleCasePipe } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { NgxMaskDirective } from "ngx-mask";
+import { selectCheckoutList } from "../../../infra/store/ngrx/selectors/reservation.selector";
+import { setCheckout, setReservation } from "../../../infra/store/ngrx/actions/reservation.actions";
 
 @Component({
     selector: 'app-dashboard',
@@ -19,26 +29,84 @@ import { Router } from "@angular/router";
     imports: [
         MatCardModule,
         MatDividerModule,
-        MatIconModule
+        MatIconModule,
+        LetDirective,
+        MatButtonModule,
+        RouterLink,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        NgxMaskDirective,
+        DatePipe,
+        TitleCasePipe
     ],
 })
 export class DashboardComponent extends BaseComponent {
 
-    protected readonly ROOMS: Room[];
-    freeRooms: number;
+    checkoutResearch: string;
+    reservationResearch: string;
 
     constructor(
         store: Store<AppState>,
         router: Router,
     ) {
         super(store, router);
-        this.ROOMS = ROOMS;
-        this.freeRooms = ROOMS.reduce((total, value) => {
-            return value.status === RoomStatus.free
+        this.checkoutResearch = '';
+        this.reservationResearch = '';
+        this.store.select(selectCheckoutList).subscribe(result => console.log('oi', result));
+    }
+
+    countFreeRooms(roomList: Room[]): number {
+        return roomList.reduce((total: number, room: Room): number => {
+            return room.status === RoomStatus.free
                 ? total + 1
                 : total;
         }, 0)
     }
+    //
+    // countTodayCheckouts(roomList: Room[]) {
+    //     return roomList.reduce((total: number, room: Room): number => {
+    //         const hasCheckoutForToday = room.reservations?.find((reservation: Reservation) => {
+    //             const today = formatDate(new Date(), 'yyyy-MM-dd', 'pt-BR');
+    //             const checkOut = formatDate(reservation.endDate, 'yyyy-MM-dd', 'pt-BR');
+    //             return today === checkOut;
+    //         });
+    //         return hasCheckoutForToday
+    //             ? total + 1
+    //             : total;
+    //     }, 0)
+    // }
+    //
+    // countTodayReservations(roomList: Room[]) {
+    //     return roomList.reduce((total: number, room: Room): number => {
+    //         const hasReservationForToday = room.reservations?.find((reservation: Reservation) => {
+    //             const checkIn = formatDate(reservation.startDate, 'yyyy-MM-dd', 'pt-BR');
+    //             const today = formatDate(new Date(), 'yyyy-MM-dd', 'pt-BR');
+    //             return checkIn === today
+    //         });
+    //         return hasReservationForToday
+    //             ? total + 1
+    //             : total;
+    //     }, 0)
+    // }
 
+    onCheckoutResearchChanges(checkoutList: Reservation[] | null) {
+        if (this.checkoutResearch === '') return;
+        const searchString = this.checkoutResearch.toLowerCase();
+        const checkout = checkoutList?.find((checkout: Reservation) => checkout.guest.personalData?.name.toLowerCase().includes(searchString)) ?? null;
+        this.store.dispatch(setCheckout({ checkout: checkout }));
+    }
 
+    onReservationResearchChanges(reservationList: Reservation[] | null) {
+        if (this.reservationResearch === '') return;
+        const searchString = this.reservationResearch.toLowerCase();
+        const reservation = reservationList?.find((reservation: Reservation) => reservation.guest.personalData?.name.toLowerCase().includes(searchString)) ?? null;
+        this.store.dispatch(setReservation({ reservation: reservation }));
+        console.log('oi', reservationList)
+    }
+
+    checkout() {
+
+    }
 }

@@ -20,6 +20,33 @@ html {
     --mat-stepper-header-hover-state-layer-shape: 2rem !important;
     --mat-stepper-header-focus-state-layer-shape: 2rem !important;
 
+    .container {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: auto auto auto;
+        gap: 10px;
+        padding: 0 2rem;
+        h3 {
+            font-size: 1.375rem;
+            font-weight: 500;
+        }
+        .full {
+            grid-column: span 8;
+        }
+        .more-than-half {
+            grid-column: span 6;
+        }
+        .half {
+            grid-column: span 4;
+        }
+        .quarter {
+            grid-column: span 2;
+        }
+        .eight {
+            grid-column: span 1;
+        }
+    }
+
     .brand {
         font-family: 'Pacifico', sans-serif;
         @extend .text-success;

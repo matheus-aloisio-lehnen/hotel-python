@@ -1,61 +1,13 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    box-shadow: unset;
+.details-card {
+    padding: 1rem 2rem 1rem 2rem;
 
-    .mat-icon {
-        vertical-align: bottom;
-    }
-
-    .box-2 {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        margin: 2.5rem 0;
-        gap: 10px;
-        .mat-mdc-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-            width: 200px;
-            .mat-mdc-card-title {
-                padding: 1rem 1rem 0 1rem;
-            }
-            p {
-                font-family: 'Varela Round', sans-serif;
-                font-size: .8rem;
-                text-align: center;
-            }
+    .details-card-body {
+        .mat-mdc-form-field {
+            margin-top: 1.5rem;
+            width: 100%;
         }
-
-    }
-
-    .box-3 {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        .card {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            width: 40%;
-            .mat-mdc-card-content {
-                margin: 2rem 0;
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                .mat-divider {
-                    margin: 1rem 0;
-                }
-            }
+        .mat-divider {
+            margin: 2.5rem 0;
         }
     }
-
 }

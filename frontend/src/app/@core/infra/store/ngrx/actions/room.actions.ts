@@ -39,4 +39,3 @@ export const setRoomList = createAction(
     '[Room] Set Room List',
     props<{ roomList: Room[] }>()
 );
-

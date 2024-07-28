@@ -22,12 +22,11 @@
     $on-error: mat.get-theme-color($theme, on-error);
     $error-container: mat.get-theme-color($theme, error-container);
 
-
     $primary: mat.get-theme-color($theme, primary);
     $secondary: mat.get-theme-color($theme, secondary);
     $success: mat.get-theme-color($theme, tertiary);
     $info: map-get(mat.$azure-palette, 30);
-    $warning: mat.get-theme-color($theme, primary);
+    $warning: #ffc107;
     $active: mat.get-theme-color($theme, primary-container);
     $danger: mat.get-theme-color($theme, error);
     $gray: mat.get-theme-color($theme, outline);
@@ -172,6 +171,31 @@
         color: #000;
     }
 
+    .border-primary {
+        border: 1px solid #0d6efd;
+    }
+    .border-secondary {
+        border: 1px solid #6c757d;
+    }
+    .border-success {
+        border: 1px solid #198754;
+    }
+    .border-danger {
+        border: 1px solid #dc3545;
+    }
+    .border-warning {
+        border: 1px solid #ffc107;
+    }
+    .border-info {
+        border: 1px solid #0dcaf0;
+    }
+    .border-light {
+        border: 1px solid #f8f9fa;
+    }
+    .border-dark {
+        border: 1px solid #212529;
+    }
+
     .hover:hover {
         background: $empty;
         transition: 0.1s;
@@ -183,6 +207,38 @@
 
     .disabled {
         opacity: 0.4;
+    }
+
+    .text-blue {
+        color: #007bff !important;
+    }
+    .text-green {
+        color: #28a745 !important;
+    }
+    .text-red {
+        color: #dc3545 !important;
+    }
+    .text-orange {
+        color: #ffc107 !important;
+    }
+    .text-light-blue {
+        color: #17a2b8 !important;
+    }
+
+    .bg-blue {
+        background-color: #007bff !important;
+    }
+    .bg-green {
+        background-color: #28a745 !important;
+    }
+    .bg-red {
+        background-color: #dc3545 !important;
+    }
+    .bg-orange {
+        background-color: #ffc107 !important;
+    }
+    .bg-light-blue {
+        background-color: #17a2b8 !important;
     }
 
     .snackbar-success {

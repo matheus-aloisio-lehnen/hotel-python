@@ -18,6 +18,7 @@ import { setRoomList } from "../../infra/store/ngrx/actions/room.actions";
 import { ROOMS } from "../../domain/mock/rooms.mock";
 import { generateRandomReservations } from "../../infra/utils/generators/random-reservation";
 import { selectRoomList } from "../../infra/store/ngrx/selectors/room.selector";
+import { ReservationService } from "./reservations/service/reservation.service";
 
 @Component({
     selector: 'app-home',
@@ -43,13 +44,13 @@ export class HomeComponent extends BaseComponent {
 
     constructor(
         store: Store<AppState>,
-        router: Router
+        router: Router,
+        private reservationService: ReservationService
     ) {
         super(store, router);
         this.navHovered = false;
         this.SIDENAV = SIDENAV;
-        this.store.dispatch(setRoomList({ roomList: generateRandomReservations(new Date().getMonth() + 1, ROOMS.length) }))
-
+        this.reservationService.getReservations();
         const teste = this.store.select(selectRoomList).subscribe(result => console.log(result))
     }
 

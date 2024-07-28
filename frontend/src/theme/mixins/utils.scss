@@ -4,8 +4,8 @@
 @import "form-field";
 @import "helpers";
 @import "icon-size";
-@import "selectable-icon";
-@import "square-btn";
+@import "dashboard-card";
+@import "room-card";
 
 @mixin mixins($theme) {
     @include animations($theme);
@@ -14,6 +14,6 @@
     @include form-field($theme);
     @include helpers();
     @include icon-size();
-    @include selectable-icon($theme);
-    @include square-button($theme);
+    @include dashboard-card($theme);
+    @include room-card($theme);
 }

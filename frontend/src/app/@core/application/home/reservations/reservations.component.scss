@@ -1,55 +1,23 @@
-.container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    box-shadow: unset;
+.full:not(:first-child) {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
 
-    .box-2 {
-        margin: .75rem 0;
-        max-width: 94vw;
+.start-date {
+    border-top-left-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+}
 
+.end-date {
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+}
 
-        .mat-mdc-table {
-            margin-top: .75rem;
-            padding: 1rem 0;
-            overflow: hidden;
-        }
+.has-reservation {
+    cursor: pointer !important;
+}
 
-        .mat-mdc-cell {
-            opacity: 0.7;
-        }
-
-        .start-date {
-            border-top-left-radius: 3rem;
-            border-bottom-left-radius: 3rem;
-            padding-left: 2rem;
-            padding-right: 1rem;
-        }
-
-        .end-date {
-            border-top-right-radius: 3rem;
-            border-bottom-right-radius: 3rem;
-            padding-left: 1rem;
-            padding-right: 2rem;
-        }
-
-        .has-reservation {
-            cursor: pointer !important;
-        }
-
-        .has-reservation:hover {
-            opacity: 1;
-        }
-
-    }
-
-    .box-3 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .mat-mdc-card {
-            width: 50%;
-        }
-    }
-
+.has-reservation:hover {
+    opacity: 1;
 }

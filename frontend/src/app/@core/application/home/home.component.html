@@ -23,9 +23,9 @@
             <mat-divider></mat-divider>
             <mat-nav-list>
                 @for (nav of SIDENAV; track nav.title) {
-                    <a mat-list-item [routerLink]="nav.link">
-                        <mat-icon>{{ nav.icon }}</mat-icon>
-                        <span class="text"> {{ nav.title }} </span>
+                    <a mat-list-item [routerLink]="nav.link" >
+                        <mat-icon class="text-primary">{{ nav.icon }}</mat-icon>
+                        <span class="text text-primary"> {{ nav.title }} </span>
                     </a>
                 }
             </mat-nav-list>

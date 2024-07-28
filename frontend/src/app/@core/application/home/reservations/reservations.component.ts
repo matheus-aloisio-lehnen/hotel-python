@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
@@ -8,7 +8,6 @@ import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
-import { Observable } from "rxjs";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
@@ -23,9 +22,7 @@ import { generateColor } from "../../../infra/utils/colors/color-generator";
 import { AddReservationComponent } from "./dialogs/add-reservation/add-reservation.component";
 import { DeleteReservationComponent } from "./dialogs/delete-reservation/delete-reservation.component";
 import { setRoom, setRoomList } from "../../../infra/store/ngrx/actions/room.actions";
-import { selectRoom, selectRoomList } from "../../../infra/store/ngrx/selectors/room.selector";
 import { setReservation } from "../../../infra/store/ngrx/actions/reservation.actions";
-import { selectReservation } from "../../../infra/store/ngrx/selectors/reservation.selector";
 import { EditReservationComponent } from "./dialogs/edit-reservation/edit-reservation.component";
 import { generateRandomReservations } from "../../../infra/utils/generators/random-reservation";
 
@@ -47,15 +44,13 @@ import { generateRandomReservations } from "../../../infra/utils/generators/rand
         DatePipe
     ]
 })
-export class ReservationsComponent extends BaseComponent {
+export class ReservationsComponent extends BaseComponent implements OnDestroy {
 
     @ViewChild(MatTabGroup) tabs!: MatTabGroup;
     protected readonly months: MonthType[];
     selectedMonth: number;
-    roomList$: Observable<Room[]>;
     displayedColumns: string[];
-    selectedReservation$: Observable<Reservation | null>;
-    selectedRoom$: Observable<Room | null>
+
     today: string;
 
     constructor(
@@ -67,12 +62,8 @@ export class ReservationsComponent extends BaseComponent {
         this.months = MONTHS;
         this.selectedMonth = new Date().getMonth();
         this.displayedColumns = this.getDisplayedColumns(this.selectedMonth + 1);
-        this.roomList$ = this.store.select(selectRoomList);
-        this.selectedRoom$ = this.store.select(selectRoom);
-        this.selectedReservation$ = this.store.select(selectReservation);
         this.store.dispatch(setRoom({ room: null}))
         this.today = formatDate(new Date(), 'dd', 'pt-BR');
-        console.log(this.today)
     }
 
     onTabChange() {
@@ -150,6 +141,10 @@ export class ReservationsComponent extends BaseComponent {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = reservation;
         this.dialog.open(DeleteReservationComponent, dialogConfig);
+    }
+
+    ngOnDestroy() {
+        this.store.dispatch(setReservation( { reservation: null }));
     }
 
 }
