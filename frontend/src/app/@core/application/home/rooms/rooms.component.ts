@@ -19,6 +19,7 @@ import { setRoom } from "../../../infra/store/ngrx/actions/room.actions";
 import { setReservation } from "../../../infra/store/ngrx/actions/reservation.actions";
 import { CpfPipe } from "../../../infra/utils/pipes/cpf.pipe";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
     selector: 'app-rooms',
@@ -34,6 +35,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
         MatListModule,
         MatTooltipModule,
         MatRippleModule,
+        MatExpansionModule,
         TitleCasePipe,
         LetDirective,
         DatePipe,

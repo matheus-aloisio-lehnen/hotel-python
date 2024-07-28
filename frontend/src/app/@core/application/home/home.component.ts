@@ -14,11 +14,10 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { LetDirective } from "@ngrx/component";
 import { RouteList } from "../../domain/enum/route-list.enum";
-import { setRoomList } from "../../infra/store/ngrx/actions/room.actions";
-import { ROOMS } from "../../domain/mock/rooms.mock";
-import { generateRandomReservations } from "../../infra/utils/generators/random-reservation";
 import { selectRoomList } from "../../infra/store/ngrx/selectors/room.selector";
 import { ReservationService } from "./reservations/service/reservation.service";
+import { NgOptimizedImage } from "@angular/common";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
     selector: 'app-home',
@@ -34,22 +33,24 @@ import { ReservationService } from "./reservations/service/reservation.service";
         MatIconModule,
         MatButtonModule,
         MatListModule,
-        LetDirective
+        LetDirective,
+        MatTooltipModule,
+        NgOptimizedImage
     ]
 })
 export class HomeComponent extends BaseComponent {
 
     navHovered: boolean;
-    SIDENAV: Sidenav[];
+    sidenav: Sidenav[];
 
     constructor(
         store: Store<AppState>,
         router: Router,
-        private reservationService: ReservationService
+        private reservationService: ReservationService,
     ) {
         super(store, router);
         this.navHovered = false;
-        this.SIDENAV = SIDENAV;
+        this.sidenav = SIDENAV;
         this.reservationService.getReservations();
         const teste = this.store.select(selectRoomList).subscribe(result => console.log(result))
     }
@@ -58,4 +59,8 @@ export class HomeComponent extends BaseComponent {
         this.router.navigate([ RouteList.auth ])
     }
 
+    close() {
+        console.log('close');
+        // snav.toggle()
+    }
 }

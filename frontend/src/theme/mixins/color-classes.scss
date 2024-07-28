@@ -24,10 +24,10 @@
 
     $primary: mat.get-theme-color($theme, primary);
     $secondary: mat.get-theme-color($theme, secondary);
-    $success: mat.get-theme-color($theme, tertiary);
+    $tertiary: mat.get-theme-color($theme, tertiary);
     $info: map-get(mat.$azure-palette, 30);
     $warning: #ffc107;
-    $active: mat.get-theme-color($theme, primary-container);
+    $active: mat.get-theme-color($theme, tertiary);
     $danger: mat.get-theme-color($theme, error);
     $gray: mat.get-theme-color($theme, outline);
     $empty: mat.get-theme-color($theme, outline-variant);
@@ -39,10 +39,15 @@
     $pastel-warning: #F8D7A4;
     $pastel-danger: #F5C6C6;
 
+    $blue: #007bff;
+    $green: #28a745;
+    $red: #dc3545;
+    $orange: #ffc107;
+    $light-blue: #17a2b8;
+
     @if($type == 'dark') {
         $info: map-get(mat.$azure-palette, 70);
         $warning: mat.get-theme-color($theme, primary-fixed-dim);
-        $active: mat.get-theme-color($theme, tertiary);
     }
 
     .text-primary {
@@ -54,7 +59,7 @@
     }
 
     .text-success {
-        color: $success !important;
+        color: $tertiary !important;
     }
 
     .text-info {
@@ -118,7 +123,7 @@
     }
 
     .bg-success {
-        background-color: $success !important;
+        background-color: $tertiary !important;
     }
 
     .bg-info {
@@ -210,35 +215,35 @@
     }
 
     .text-blue {
-        color: #007bff !important;
+        color: $blue !important;
     }
     .text-green {
-        color: #28a745 !important;
+        color: $green !important;
     }
     .text-red {
-        color: #dc3545 !important;
+        color: $red !important;
     }
     .text-orange {
-        color: #ffc107 !important;
+        color: $orange !important;
     }
     .text-light-blue {
-        color: #17a2b8 !important;
+        color: $light-blue !important;
     }
 
     .bg-blue {
-        background-color: #007bff !important;
+        background-color: $blue !important;
     }
     .bg-green {
-        background-color: #28a745 !important;
+        background-color: $green !important;
     }
     .bg-red {
-        background-color: #dc3545 !important;
+        background-color: $red !important;
     }
     .bg-orange {
-        background-color: #ffc107 !important;
+        background-color: $orange !important;
     }
     .bg-light-blue {
-        background-color: #17a2b8 !important;
+        background-color: $light-blue !important;
     }
 
     .snackbar-success {
@@ -263,6 +268,26 @@
         } @else {
             --mdc-snackbar-container-color: #ba1a1a !important;
         }
+    }
+
+    .bg-container {
+        background-color: $light-primary !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+    }
+    ::-webkit-scrollbar-track {
+        background: $empty;
+        border-radius: 1rem;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: $blue;
+        border-radius: 1rem;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: $primary;
     }
 
 }

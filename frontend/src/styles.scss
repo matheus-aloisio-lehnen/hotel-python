@@ -19,7 +19,6 @@ html {
     --mdc-elevated-card-container-shape: 2rem !important;
     --mat-stepper-header-hover-state-layer-shape: 2rem !important;
     --mat-stepper-header-focus-state-layer-shape: 2rem !important;
-
     .container {
         display: grid;
         grid-template-columns: repeat(8, 1fr);
@@ -46,14 +45,11 @@ html {
             grid-column: span 1;
         }
     }
-
     .brand {
-        font-family: 'Pacifico', sans-serif;
-        @extend .text-success;
+        font-family: 'Pacifico', sans-serif !important;
     }
     @include mat.all-component-themes(light.$theme);
     @include utils.mixins(light.$theme);
-
 }
 
 .dark-theme {

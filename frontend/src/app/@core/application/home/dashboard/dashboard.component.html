@@ -10,8 +10,8 @@
                         <div class="quarter">
                             <mat-card class="dashboard-card" appearance="outlined">
                                 <div class="dashboard-card-header">
-                                    <div class="box-icon bg-green" [routerLink]="RouteList.cashFlow"
-                                         [matTooltip]="'Clique aqui para verificar o fluxo de caixa'">
+                                    <div class="box-icon bg-green" [routerLink]="['..', RouteList.cashFlow]"
+                                         [matTooltip]="'Ver fluxo de caixa'">
                                         <mat-icon class="i-2xl">payments</mat-icon>
                                     </div>
                                     <p>Saldo em caixa</p>
@@ -31,7 +31,7 @@
                             <mat-card class="dashboard-card" appearance="outlined">
                                 <div class="dashboard-card-header">
                                     <div class="box-icon bg-blue" [routerLink]="['..', RouteList.rooms]"
-                                         [matTooltip]="'Clique aqui para acessar os quartos'">
+                                         [matTooltip]="'Ver quartos'">
                                         <mat-icon class="i-2xl">bed</mat-icon>
                                     </div>
                                     <p>Quartos vagos balcão</p>
@@ -51,7 +51,7 @@
                             <mat-card class="dashboard-card" appearance="outlined">
                                 <div class="dashboard-card-header">
                                     <div class="box-icon bg-red" [routerLink]="['..', RouteList.rooms]"
-                                         [matTooltip]="'Clique aqui para realizar um checkout'">
+                                         [matTooltip]="'Ver quartos'">
                                         <mat-icon class="i-2xl">flight_takeoff</mat-icon>
                                     </div>
                                     <p>Checkouts para hoje</p>
@@ -93,20 +93,19 @@
                                     <h3>Checkouts do dia</h3>
                                 </div>
                                 <div class="details-card-body">
-
                                     <mat-form-field>
                                         <mat-label>Pesquisar hóspede</mat-label>
-                                        <mat-icon class="text-primary" matIconPrefix>search</mat-icon>
+                                        <mat-icon matIconPrefix>search</mat-icon>
                                         <input matInput [(ngModel)]="checkoutResearch"
                                                (ngModelChange)="onCheckoutResearchChanges(checkoutList)">
                                     </mat-form-field>
                                     <div>
                                     </div>
                                     <mat-divider></mat-divider>
-                                    @if (selectedCheckout) {
+                                    @if (showCheckoutDetails) {
                                         <div class="container">
                                             <span class="quarter">Quarto:</span>
-                                            <span class="more-than-half"> {{ selectedCheckout?.room?.number }}</span>
+                                            <span class="more-than-half"> {{ selectedCheckout?.roomNumber }}</span>
                                             <span class="quarter">Hóspede:</span>
                                             <span class="more-than-half">{{ selectedCheckout?.guest?.personalData?.name }}</span>
                                             <span class="quarter">Documento:</span>
@@ -117,10 +116,13 @@
                                             <span class="more-than-half">{{ selectedCheckout?.endDate | date: 'dd-MM-yyyy' }}</span>
                                             <span class="quarter">Pagamento:</span>
                                             <span class="more-than-half">{{ selectedCheckout?.paymentStatus  | titlecase }}</span>
-                                            <div class="full">
-                                                <button mat-flat-button (click)="checkout()">Fazer check-out</button>
-                                            </div>
                                         </div>
+                                        <mat-divider></mat-divider>
+                                    }
+                                </div>
+                                <div class="details-card-action">
+                                    @if (showCheckoutDetails) {
+                                        <button mat-stroked-button (click)="checkout()">Fazer check-out</button>
                                     }
                                 </div>
                             </mat-card>
@@ -134,17 +136,17 @@
 
                                     <mat-form-field>
                                         <mat-label>Pesquisar hóspede</mat-label>
-                                        <mat-icon class="text-primary" matIconPrefix>search</mat-icon>
+                                        <mat-icon matIconPrefix>search</mat-icon>
                                         <input matInput [(ngModel)]="reservationResearch"
                                                (ngModelChange)="onReservationResearchChanges(reservationList)">
                                     </mat-form-field>
                                     <div>
                                     </div>
                                     <mat-divider></mat-divider>
-                                    @if (selectedReservation) {
+                                    @if (showReservationDetails) {
                                         <div class="container">
                                             <span class="quarter">Quarto:</span>
-                                            <span class="more-than-half"> {{ selectedReservation?.room?.number }}</span>
+                                            <span class="more-than-half"> {{ selectedReservation?.roomNumber }}</span>
                                             <span class="quarter">Hóspede:</span>
                                             <span class="more-than-half">{{ selectedReservation?.guest?.personalData?.name }}</span>
                                             <span class="quarter">Documento:</span>
@@ -155,10 +157,13 @@
                                             <span class="more-than-half">{{ selectedReservation?.endDate | date: 'dd-MM-yyyy' }}</span>
                                             <span class="quarter">Pagamento:</span>
                                             <span class="more-than-half">{{ selectedReservation?.paymentStatus | titlecase }}</span>
-                                            <div class="full" (click)="checkin()">
-                                                <button mat-flat-button>Fazer check-in</button>
-                                            </div>
                                         </div>
+                                        <mat-divider></mat-divider>
+                                    }
+                                </div>
+                                <div class="details-card-action">
+                                    @if (showReservationDetails) {
+                                        <button mat-stroked-button (click)="checkin()">Fazer check-in</button>
                                     }
                                 </div>
                             </mat-card>

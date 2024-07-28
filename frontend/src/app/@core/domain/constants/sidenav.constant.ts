@@ -18,4 +18,9 @@ export const SIDENAV: Sidenav[] = [
         icon: Icon.reservation,
         link: RouteList.reservations
     },
+    {
+        title: 'Fluxo de caixa',
+        icon: Icon.cashFlow,
+        link: RouteList.cashFlow
+    },
 ]

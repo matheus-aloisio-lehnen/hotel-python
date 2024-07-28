@@ -9,8 +9,12 @@ import { SVG_CSV } from "../../../../assets/icon/constants/csv.svg";
 import { SVG_EDIT } from "../../../../assets/icon/constants/edit.svg";
 import { SVG_TRASH } from "../../../../assets/icon/constants/trash.svg";
 import { Icon } from "../../domain/enum/icon.enum";
+import { SVG_LINKEDIN } from "../../../../assets/icon/constants/linkedin.svg";
+import { SVG_GITHUB } from "../../../../assets/icon/constants/github.svg";
 
 export const ICONS: IconRegistry[] = [
+    { label: Icon.linkedin, value: SVG_LINKEDIN },
+    { label: Icon.github, value: SVG_GITHUB },
     { label: Icon.youtube, value: SVG_YOUTUBE },
     { label: Icon.facebook, value: SVG_FACEBOOK },
     { label: Icon.instagram, value: SVG_INSTAGRAM },

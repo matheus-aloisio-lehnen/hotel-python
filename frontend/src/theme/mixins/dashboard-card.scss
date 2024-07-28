@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 
-
 @mixin dashboard-card($theme) {
 
     $type: mat.get-theme-type($theme);
@@ -9,13 +8,11 @@
         display: flex;
         flex-direction: column;
         margin: 1.5rem auto;
-
         .dashboard-card-header {
             margin: 0 15px;
             padding: 0;
             position: relative;
             text-align: right;
-
             .box-icon {
                 border-radius: 2rem;
                 padding: 15px;
@@ -25,7 +22,6 @@
                 @include mat.elevation(6);
                 cursor: pointer;
                 transition: opacity 0.3s;
-
                 .mat-icon {
                     font-size: 36px;
                     line-height: 56px;
@@ -35,22 +31,17 @@
                     color: #ffffff;
                 }
             }
-
             .box-icon:hover {
                 @include mat.elevation(12);
             }
         }
-
         .mat-divider {
             margin: 0 1.25rem;
         }
-
         .dashboard-card-footer {
             padding: .5rem 1rem;
-
             .stats {
                 font-size: .75rem;
-
                 .mat-icon {
                     margin: 0 .3rem 0 0.5rem;
                     vertical-align: bottom;
@@ -58,5 +49,4 @@
             }
         }
     }
-
 }

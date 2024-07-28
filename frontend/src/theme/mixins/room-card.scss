@@ -9,7 +9,6 @@
     $empty: mat.get-theme-color($theme, outline-variant);
     $primary: mat.get-theme-color($theme, primary);
     $success: mat.get-theme-color($theme, tertiary);
-
     .room-card {
         display: flex;
         flex-direction: column;
@@ -17,19 +16,16 @@
         align-items: center;
         border-radius: 2rem;
         cursor: pointer;
+        padding: 1rem;
         .mat-icon {
-            font-size: 6rem;
-            width: 6rem;
-            height: 6rem;
+            font-size: 5rem;
+            width: 5rem;
+            height: 5rem;
             margin: 0;
         }
-
-
+        h4 {
+            margin: 0;
+        }
+        @extend .hover;
     }
-
-    .room-card:hover,
-    .selected {
-        @include mat.elevation(6);
-    }
-
 }

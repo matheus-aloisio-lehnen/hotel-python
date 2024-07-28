@@ -46,6 +46,8 @@ export class DashboardComponent extends BaseComponent {
 
     checkoutResearch: string;
     reservationResearch: string;
+    showCheckoutDetails: boolean;
+    showReservationDetails: boolean;
 
     constructor(
         store: Store<AppState>,
@@ -54,6 +56,8 @@ export class DashboardComponent extends BaseComponent {
         super(store, router);
         this.checkoutResearch = '';
         this.reservationResearch = '';
+        this.showCheckoutDetails = false;
+        this.showReservationDetails = false;
         this.store.select(selectCheckoutList).subscribe(result => console.log('oi', result));
     }
 
@@ -92,18 +96,24 @@ export class DashboardComponent extends BaseComponent {
     // }
 
     onCheckoutResearchChanges(checkoutList: Reservation[] | null) {
-        if (this.checkoutResearch === '') return;
         const searchString = this.checkoutResearch.toLowerCase();
-        const checkout = checkoutList?.find((checkout: Reservation) => checkout.guest.personalData?.name.toLowerCase().includes(searchString)) ?? null;
+        const checkout = this.searchGuestName(checkoutList, searchString);
         this.store.dispatch(setCheckout({ checkout: checkout }));
+        this.showCheckoutDetails = !!checkout;
     }
 
     onReservationResearchChanges(reservationList: Reservation[] | null) {
-        if (this.reservationResearch === '') return;
         const searchString = this.reservationResearch.toLowerCase();
-        const reservation = reservationList?.find((reservation: Reservation) => reservation.guest.personalData?.name.toLowerCase().includes(searchString)) ?? null;
+        const reservation = this.searchGuestName(reservationList, searchString);
         this.store.dispatch(setReservation({ reservation: reservation }));
-        console.log('oi', reservationList)
+        this.showReservationDetails = !!reservation;
+    }
+
+    searchGuestName(list: Reservation[] | null, searchString: string) {
+        return list?.find((reservation: Reservation) => {
+            const guestName = reservation.guest.personalData?.name.toLowerCase();
+            return guestName?.includes(searchString) && searchString !== ''
+        }) ?? null;
     }
 
     checkout() {
@@ -113,4 +123,5 @@ export class DashboardComponent extends BaseComponent {
     checkin() {
 
     }
+
 }

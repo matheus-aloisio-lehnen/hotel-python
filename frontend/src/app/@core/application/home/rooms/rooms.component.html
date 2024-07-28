@@ -10,8 +10,8 @@
                     <div class="eight">
 
                         <mat-card class="room-card" appearance="outlined"
-                                  [class.selected]="selectedRoom?.number === room.number"
-                                  [matTooltip]="'Este quarto está ' + room.status"
+                                  [class.active]="selectedRoom?.number === room.number"
+                                  [matTooltip]="room.status | titlecase"
                                   (click)="selectRoom(room)" matRipple>
                             <mat-icon [class.text-green]="room.status === RoomStatusEnum.free"
                                       [class.text-orange]="room.status === RoomStatusEnum.reserved"
@@ -24,12 +24,12 @@
             </div>
             @if (selectedRoom) {
                 <div class="full">
-                    <mat-card appearance="outlined">
+                    <mat-card class="room-details" appearance="outlined">
                         <mat-card-header>
                             <mat-card-title> Informações do quarto</mat-card-title>
-                            <mat-card-subtitle>Quarto {{ selectedRoom?.number }}</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
+                            <p>Quarto {{ selectedRoom?.number }}</p>
                             <p>Status: {{ selectedRoom?.status | titlecase }}</p>
                             <p>Diária: {{ selectedRoom?.price | currency: 'BRL' }}</p>
                             @if (selectedRoom?.status !== RoomStatusEnum.free) {
@@ -38,164 +38,24 @@
                                 <p>Data de entrada: {{ selectedReservation?.startDate | date: 'dd-MM-yyyy' }} </p>
                                 <p>Data de saída: {{ selectedReservation?.endDate | date: 'dd-MM-yyyy' }} </p>
                                 <p>Status de pagamento: {{ selectedReservation?.paymentStatus | titlecase }}</p>
+                                @if(selectedRoom?.status === RoomStatusEnum.busy) {
+                                    <mat-divider></mat-divider>
+                                    <h3>Frigobar</h3>
+                                    <p>Produtos consumidos: Aqui vai uma lista com quantidade valor unitario e sub total </p>
+                                    <p>Total: R$ 1000,00 </p>
+                                }
                             }
-                            @if (selectedRoom.status === RoomStatusEnum.free) {
-                                <button mat-stroked-button>Fazer check-in sem reserva</button>
-                            } @else if (selectedRoom.status === RoomStatusEnum.busy) {
-                                <button mat-stroked-button>Fazer checkout</button>
-                            } @else if (selectedRoom.status === RoomStatusEnum.reserved) {
-                                <button mat-stroked-button>Consultar informações de reserva</button>
-                            }
-
                         </mat-card-content>
+                        <mat-card-actions>
+                            @if (selectedRoom.status === RoomStatusEnum.busy) {
+                                <button mat-stroked-button>Fazer check-out</button>
+                            } @else {
+                                <button mat-stroked-button>Fazer check-in</button>
+                            }
+                        </mat-card-actions>
                     </mat-card>
                 </div>
             }
-
-            <!--                        <mat-card class="room-card" appearance="outlined"-->
-            <!--                                  (click)="selectRoom(room)"-->
-            <!--                                  >-->
-            <!--                            <div class="box-icon"-->
-            <!--                                 [class.selected]="selectedRoom?.number === room.number"-->
-            <!--                                 [class.text-light-success]="room.status === RoomStatusEnum.free"-->
-            <!--                                 [class.text-light-warning]="room.status === RoomStatusEnum.reserved"-->
-            <!--                                 [class.text-light-danger]="room.status === RoomStatusEnum.busy">-->
-            <!--                                <mat-icon class="i-4xl">meeting_room</mat-icon>-->
-            <!--                            </div>-->
-            <!--                            <div class="room-card-body">-->
-            <!--                                <p>Quarto</p>-->
-            <!--                                <h3>{{ room.number }}</h3>-->
-            <!--                            </div>-->
-            <!--                            @if (selectedRoom) {-->
-            <!--                                <mat-card-content>-->
-            <!--                                    <p>Status: {{ selectedRoom?.status | titlecase }}</p>-->
-            <!--                                    <p>Diária: {{ selectedRoom?.price | currency: 'BRL' }}</p>-->
-            <!--                                    @if (selectedRoom?.status !== RoomStatusEnum.free) {-->
-            <!--                                        <p>Hóspede: {{ selectedReservation?.guest?.personalData?.name | titlecase }} </p>-->
-            <!--                                        <p>CPF: {{ selectedReservation?.guest?.personalData?.documentNumber | cpf }} </p>-->
-            <!--                                        <p>Data de entrada: {{ selectedReservation?.startDate | date: 'dd-MM-yyyy' }} </p>-->
-            <!--                                        <p>Data de saída: {{ selectedReservation?.endDate | date: 'dd-MM-yyyy' }} </p>-->
-            <!--                                        <p>Status de pagamento: {{ selectedReservation?.paymentStatus | titlecase }}</p>-->
-            <!--                                    }-->
-
-            <!--                                    @if (selectedRoom.status === RoomStatusEnum.free) {-->
-            <!--                                        <button mat-stroked-button>Fazer check-in sem reserva</button>-->
-            <!--                                    }-->
-            <!--                                    @if (selectedRoom.status === RoomStatusEnum.busy) {-->
-            <!--                                        <button mat-stroked-button>Fazer checkout</button>-->
-            <!--                                    }-->
-            <!--                                    @if (selectedRoom.status === RoomStatusEnum.reserved) {-->
-            <!--                                        <button mat-stroked-button>Consultar informações de reserva</button>-->
-            <!--                                    }-->
-            <!--                                </mat-card-content>-->
-            <!--                            }-->
-            <!--                            <mat-divider></mat-divider>-->
-
-            <!--                            <div class="room-card-body">-->
-            <!--                                <p>Quarto</p>-->
-            <!--                                <p>{{ room.number}}</p>-->
-            <!--                            </div>-->
-            <!--                        </mat-card>-->
-            <!--                    </div>-->
-            <!--                }-->
-
-            <!--                @if (selectedRoom) {-->
-            <!--                    <div class="full">-->
-            <!--                        <mat-card class="room-card" appearance="outlined">-->
-            <!--                            <mat-card-header>-->
-            <!--                                <mat-card-title> Informações do quarto</mat-card-title>-->
-            <!--                                <mat-card-subtitle>Quarto {{ selectedRoom?.number }}</mat-card-subtitle>-->
-            <!--                            </mat-card-header>-->
-            <!--                            <mat-card-content>-->
-            <!--                                <p>Status: {{ selectedRoom?.status | titlecase }}</p>-->
-            <!--                                <p>Diária: {{ selectedRoom?.price | currency: 'BRL' }}</p>-->
-            <!--                                @if (selectedRoom?.status !== RoomStatusEnum.free) {-->
-            <!--                                    <p>Hóspede: {{ selectedReservation?.guest?.personalData?.name | titlecase }} </p>-->
-            <!--                                    <p>CPF: {{ selectedReservation?.guest?.personalData?.documentNumber | cpf }} </p>-->
-            <!--                                    <p>Data de entrada: {{ selectedReservation?.startDate | date: 'dd-MM-yyyy' }} </p>-->
-            <!--                                    <p>Data de saída: {{ selectedReservation?.endDate | date: 'dd-MM-yyyy' }} </p>-->
-            <!--                                    <p>Status de pagamento: {{ selectedReservation?.paymentStatus | titlecase }}</p>-->
-            <!--                                }-->
-
-            <!--                                @if (selectedRoom.status === RoomStatusEnum.free) {-->
-            <!--                                    <button mat-stroked-button>Fazer check-in sem reserva</button>-->
-            <!--                                }-->
-            <!--                                @if (selectedRoom.status === RoomStatusEnum.busy) {-->
-            <!--                                    <button mat-stroked-button>Fazer checkout</button>-->
-            <!--                                }-->
-            <!--                                @if (selectedRoom.status === RoomStatusEnum.reserved) {-->
-            <!--                                    <button mat-stroked-button>Consultar informações de reserva</button>-->
-            <!--                                }-->
-
-            <!--                            </mat-card-content>-->
-            <!--                        </mat-card>-->
-            <!--                    </div>-->
-            <!--                }-->
-            <!--            </div>-->
-
-
-            <!--                    @for (room of roomList; track room) {-->
-            <!--                        <mat-card appearance="outlined"-->
-            <!--                                  (click)="selectRoom(room)"-->
-            <!--                                  [class.selected]="selectedRoom?.number === room.number"-->
-            <!--                                  [class.bg-light-success]="room.status === RoomStatusEnum.free"-->
-            <!--                                  [class.bg-light-warning]="room.status === RoomStatusEnum.reserved"-->
-            <!--                                  [class.bg-light-danger]="room.status === RoomStatusEnum.busy" matRipple>-->
-            <!--                            <mat-card-title>Quarto {{ room.number }}</mat-card-title>-->
-            <!--                        </mat-card>-->
-            <!--                    }-->
-
-            <!--            <mat-card class="container">-->
-            <!--                <mat-card-header class="box-1">-->
-            <!--                    <mat-card-title-group>-->
-            <!--                        <mat-card-title>Quartos</mat-card-title>-->
-            <!--                    </mat-card-title-group>-->
-            <!--                </mat-card-header>-->
-            <!--                <mat-card-content class="box-2">-->
-            <!--                    @for (room of roomList; track room) {-->
-            <!--                        <mat-card appearance="outlined"-->
-            <!--                                  (click)="selectRoom(room)"-->
-            <!--                                  [class.selected]="selectedRoom?.number === room.number"-->
-            <!--                                  [class.bg-light-success]="room.status === RoomStatusEnum.free"-->
-            <!--                                  [class.bg-light-warning]="room.status === RoomStatusEnum.reserved"-->
-            <!--                                  [class.bg-light-danger]="room.status === RoomStatusEnum.busy" matRipple>-->
-            <!--                            <mat-card-title>Quarto {{ room.number }}</mat-card-title>-->
-            <!--                        </mat-card>-->
-            <!--                    }-->
-            <!--                </mat-card-content>-->
-            <!--                @if (selectedRoom) {-->
-            <!--                    <mat-card-footer class="box-3">-->
-            <!--                        <mat-card appearance="outlined">-->
-            <!--                            <mat-card-header>-->
-            <!--                                <mat-card-title> Informações do quarto</mat-card-title>-->
-            <!--                                <mat-card-subtitle>Quarto {{ selectedRoom?.number }}</mat-card-subtitle>-->
-            <!--                            </mat-card-header>-->
-            <!--                            <mat-card-content>-->
-            <!--                                <p>Status: {{ selectedRoom?.status | titlecase }}</p>-->
-            <!--                                <p>Diária: {{ selectedRoom?.price | currency: 'BRL' }}</p>-->
-            <!--                                @if (selectedRoom?.status !== RoomStatusEnum.free) {-->
-            <!--                                    <p>Hóspede: {{ selectedReservation?.guest?.personalData?.name | titlecase }} </p>-->
-            <!--                                    <p>CPF: {{ selectedReservation?.guest?.personalData?.documentNumber | cpf }} </p>-->
-            <!--                                    <p>Data de entrada: {{ selectedReservation?.startDate | date: 'dd-MM-yyyy' }} </p>-->
-            <!--                                    <p>Data de saída: {{ selectedReservation?.endDate | date: 'dd-MM-yyyy' }} </p>-->
-            <!--                                    <p>Status de pagamento: {{ selectedReservation?.paymentStatus | titlecase }}</p>-->
-            <!--                                }-->
-
-            <!--                                @if (selectedRoom.status === RoomStatusEnum.free) {-->
-            <!--                                    <button mat-stroked-button>Fazer check-in sem reserva</button>-->
-            <!--                                }-->
-            <!--                                @if (selectedRoom.status === RoomStatusEnum.busy) {-->
-            <!--                                    <button mat-stroked-button>Fazer checkout</button>-->
-            <!--                                }-->
-            <!--                                @if (selectedRoom.status === RoomStatusEnum.reserved) {-->
-            <!--                                    <button mat-stroked-button>Consultar informações de reserva</button>-->
-            <!--                                }-->
-
-            <!--                            </mat-card-content>-->
-            <!--                        </mat-card>-->
-            <!--                    </mat-card-footer>-->
-            <!--                }-->
-            <!--            </mat-card>-->
         </ng-container>
     </ng-container>
 </ng-container>

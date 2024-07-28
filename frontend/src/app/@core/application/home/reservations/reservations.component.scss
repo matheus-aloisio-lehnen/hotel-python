@@ -1,3 +1,14 @@
+.custom-card {
+    border-radius: 2rem;
+    padding: 1rem;
+    background-color: var(--mat-table-background-color);
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    .mat-mdc-table {
+        overflow-x: hidden;
+    }
+}
+
 .full:not(:first-child) {
     display: flex;
     justify-content: center;

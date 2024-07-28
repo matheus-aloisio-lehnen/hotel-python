@@ -65,7 +65,7 @@ export const generateRandomReservations = (month: number, roomsQuantity: number)
                         guest: guest,
                         startDate: startDate,
                         endDate: endDate,
-                        room: room,
+                        roomNumber: room.number,
                         paymentStatus: PaymentStatus.paid
                     });
 

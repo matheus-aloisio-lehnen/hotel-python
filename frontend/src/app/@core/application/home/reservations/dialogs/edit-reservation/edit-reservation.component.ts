@@ -61,7 +61,7 @@ export class EditReservationComponent extends ErrorMessengerUtil {
         this.reservationForm = this.formBuilder.group({
             startDate: [ '', Validators.required ],
             endDate: [ '', Validators.required ],
-            roomNumber: [ reservation.room.number, Validators.required ],
+            roomNumber: [ reservation.roomNumber, Validators.required ],
         }, { updateOn: 'blur' })
         this.personalDataForm = this.formBuilder.group({
             name: [ reservation.guest.personalData?.name, Validators.required ],

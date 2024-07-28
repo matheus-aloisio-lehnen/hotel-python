@@ -1,4 +1,6 @@
 export enum Icon {
+    linkedin = 'linkedin',
+    github = 'github',
     youtube = 'youtube',
     facebook = 'facebook',
     instagram = 'instagram',
@@ -11,4 +13,5 @@ export enum Icon {
     dashboard = 'dashboard',
     rooms = 'meeting_room',
     reservation = 'event',
+    cashFlow = 'payments',
 }
