@@ -7,7 +7,6 @@
                         <div class="full">
                             <h3>Dashboard</h3>
                         </div>
-
                         <div class="quarter">
                             <mat-card class="dashboard-card" appearance="outlined">
                                 <div class="dashboard-card-header">
@@ -119,7 +118,7 @@
                                             <span class="quarter">Pagamento:</span>
                                             <span class="more-than-half">{{ selectedCheckout?.paymentStatus  | titlecase }}</span>
                                             <div class="full">
-                                                <button mat-flat-button (click)="checkout()">Fazer checkout</button>
+                                                <button mat-flat-button (click)="checkout()">Fazer check-out</button>
                                             </div>
                                         </div>
                                     }
@@ -156,13 +155,11 @@
                                             <span class="more-than-half">{{ selectedReservation?.endDate | date: 'dd-MM-yyyy' }}</span>
                                             <span class="quarter">Pagamento:</span>
                                             <span class="more-than-half">{{ selectedReservation?.paymentStatus | titlecase }}</span>
-                                            <div class="full">
-                                                <button mat-flat-button>Fazer checkout</button>
+                                            <div class="full" (click)="checkin()">
+                                                <button mat-flat-button>Fazer check-in</button>
                                             </div>
                                         </div>
                                     }
-
-
                                 </div>
                             </mat-card>
                         </div>

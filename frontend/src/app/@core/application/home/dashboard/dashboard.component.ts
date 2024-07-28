@@ -109,4 +109,8 @@ export class DashboardComponent extends BaseComponent {
     checkout() {
 
     }
+
+    checkin() {
+
+    }
 }
