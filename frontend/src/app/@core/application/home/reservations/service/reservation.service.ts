@@ -3,13 +3,14 @@ import { Store } from "@ngrx/store";
 
 import { CreateReservationDto } from "../../../../domain/dto/reservation/create/create-reservation.dto";
 import { Reservation } from "../../../../domain/model/reservation";
-import { setRoomList } from "../../../../infra/store/ngrx/actions/room.actions";
+import { setRoomList, updateRoomInList } from "../../../../infra/store/ngrx/actions/room.actions";
 import { generateRandomReservations } from "../../../../infra/utils/generators/random-reservation";
 import { ROOMS } from "../../../../domain/mock/rooms.mock";
 import { AppState } from "../../../../infra/store/ngrx/state/app.state";
 import { Room } from "../../../../domain/model/room";
 import { setCheckoutList, setReservationList } from "../../../../infra/store/ngrx/actions/reservation.actions";
 import { formatDate } from "@angular/common";
+import { RoomStatus } from "../../../../domain/enum/room-status.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -44,6 +45,13 @@ export class ReservationService {
         console.log('delete', reservationDto)
     }
 
+    async checkin(checkinDto: Reservation) {
+        console.log('checkin', checkinDto)
+    }
+
+    async checkout(checkoutDto: Reservation) {
+        console.log('checkout', checkoutDto)
+    }
 
     filterCheckoutList(roomList: Room[]): Reservation[] {
         const today = formatDate(new Date(), 'yyyy-MM-dd', 'pt-BR');
@@ -66,6 +74,7 @@ export class ReservationService {
                 }) || []
             );
     }
+
 
 
 }

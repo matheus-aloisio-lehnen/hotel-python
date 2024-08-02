@@ -52,15 +52,10 @@ export class HomeComponent extends BaseComponent {
         this.navHovered = false;
         this.sidenav = SIDENAV;
         this.reservationService.getReservations();
-        const teste = this.store.select(selectRoomList).subscribe(result => console.log(result))
     }
 
     logout() {
         this.router.navigate([ RouteList.auth ])
     }
 
-    close() {
-        console.log('close');
-        // snav.toggle()
-    }
 }

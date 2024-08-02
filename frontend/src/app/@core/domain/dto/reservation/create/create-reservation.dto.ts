@@ -1,15 +1,15 @@
 import { FormGroup } from "@angular/forms";
-import { Room } from "../../../model/room";
 import { Guest } from "../../../model/guest";
 
 export interface CreateReservationDto {
     startDate: string;
     endDate: string;
     roomNumber: number;
-    guest: Guest
+    guest: Guest;
+    payment: {total: number}
 }
 
-export const createReservationDtoFactory = (reservationForm: FormGroup, personalDataForm: FormGroup, addressForm: FormGroup): CreateReservationDto => {
+export const createReservationDtoFactory = (reservationForm: FormGroup, personalDataForm: FormGroup, addressForm: FormGroup, paymentForm: FormGroup): CreateReservationDto => {
     return {
         startDate: reservationForm.get('startDate')?.value,
         endDate: reservationForm.get('endDate')?.value,
@@ -26,7 +26,10 @@ export const createReservationDtoFactory = (reservationForm: FormGroup, personal
                 number: addressForm.get('number')?.value,
                 city: addressForm.get('city')?.value,
                 uf: addressForm.get('uf')?.value,
-            }
+            },
+        },
+        payment: {
+            total: paymentForm.get('payment')?.value
         }
     }
 }

@@ -1,6 +1,6 @@
 <ng-container *ngrxLet="room$ as room">
     <mat-toolbar class="dialog-title">
-        <h2 mat-dialog-title> Adiciona reserva </h2>
+        <h2 mat-dialog-title> Fazer check-in </h2>
         <button mat-icon-button
                 [mat-dialog-close]="false">
             <mat-icon>close</mat-icon>
@@ -10,7 +10,7 @@
     <mat-divider></mat-divider>
     <mat-dialog-content>
         <div class="dialog-content">
-            <div class="reservation-title">
+            <div class="check-in-title">
                 <p>Quarto: {{ room?.number }}</p>
             </div>
             <mat-horizontal-stepper [headerPosition]="'top'" [labelPosition]="'bottom'">
@@ -120,6 +120,6 @@
     <mat-divider></mat-divider>
     <mat-dialog-actions>
         <button mat-button [mat-dialog-close]="false">Cancelar</button>
-        <button mat-stroked-button (click)="add(room)">Confimar</button>
+        <button mat-stroked-button [disabled]="reservationForm.invalid || personalDataForm.invalid || addressForm.invalid" (click)="checkIn(room)">Fazer check-in</button>
     </mat-dialog-actions>
 </ng-container>

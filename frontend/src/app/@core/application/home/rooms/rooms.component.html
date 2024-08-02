@@ -48,9 +48,9 @@
                         </mat-card-content>
                         <mat-card-actions>
                             @if (selectedRoom.status === RoomStatusEnum.busy) {
-                                <button mat-stroked-button>Fazer check-out</button>
+                                <button mat-stroked-button (click)="checkout(selectedRoom)">Fazer check-out</button>
                             } @else {
-                                <button mat-stroked-button>Fazer check-in</button>
+                                <button mat-stroked-button (click)="checkin(selectedRoom)">Fazer check-in</button>
                             }
                         </mat-card-actions>
                     </mat-card>

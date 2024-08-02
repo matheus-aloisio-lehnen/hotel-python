@@ -128,7 +128,7 @@ export class ReservationsComponent extends BaseComponent implements OnDestroy {
     }
 
     add() {
-        this.dialog.open(AddReservationComponent)
+        this.dialog.open(AddReservationComponent);
     }
 
     edit(reservation: Reservation) {

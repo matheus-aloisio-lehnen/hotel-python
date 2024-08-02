@@ -32,17 +32,15 @@ export const roomReducer: ActionReducer<RoomState> = createReducer(
     })),
     on(addRoomToList, (state, { room }) => ({
         ...state,
-        roomList: [...state.roomList, room]
+        roomList: [ ...state.roomList, room ]
     })),
     on(updateRoomInList, (state, { room }) => ({
         ...state,
-        roomList: state.roomList.map((r: Room) =>
-            r.id === room.id ? { ...r, ...room } : r
-        )
+        roomList: state.roomList.map((r: Room) => r.number === room.number ? { ...r, ...room } : r)
     })),
     on(removeRoomFromList, (state, { id }) => ({
         ...state,
-        roomList: state.roomList.filter((r: Room) => r.id !== id)
+        roomList: state.roomList.filter((r: Room) => r.number !== id)
     })),
     on(setRoomList, (state, { roomList }) => ({
         ...state,
